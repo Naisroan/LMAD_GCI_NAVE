@@ -1,3 +1,5 @@
 .vs/
 GCI_PF_NAVE/x64
-x64/
+x64/Debug/*.exe
+x64/Debug/*.ilk
+x64/Debug/*.pdb
