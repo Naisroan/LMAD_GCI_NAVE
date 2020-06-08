@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de origen">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado\shaders">
+      <UniqueIdentifier>{c5dda479-918e-4fac-b4aa-7992fcfd4501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\app">
+      <UniqueIdentifier>{f7e64d17-d337-49fa-b67f-feb562beee0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\geometry">
+      <UniqueIdentifier>{9b2a60c0-63b6-4d02-9495-a87c83810864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\models">
+      <UniqueIdentifier>{e81e79fb-061f-4b6c-8027-4285c69383c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\tools">
+      <UniqueIdentifier>{a558e654-7036-42fa-900b-ff9ca861b7ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\third">
+      <UniqueIdentifier>{1906ea16-d980-4b49-8ca1-062dc2bd513f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\third\glfw">
+      <UniqueIdentifier>{4116503b-6d01-45e5-b9e0-5751dfa6ab33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\third\soil">
+      <UniqueIdentifier>{d0852796-13f6-4bdb-8ce7-c105ee33cb92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\third\glm">
+      <UniqueIdentifier>{8ce39a84-fe53-4b40-a9c5-05347924c0e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\third\glew">
+      <UniqueIdentifier>{504c1a9d-38d3-4bae-986f-cc445f042d17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\shaders\files">
+      <UniqueIdentifier>{f6c1d291-7e22-4e9a-b997-5e1fef0e4c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\sky">
+      <UniqueIdentifier>{d456a742-bc56-458b-bfb1-24c634c540f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\third\assimp">
+      <UniqueIdentifier>{433937f9-ac0b-48ee-9475-eb0182bde710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\models\tools">
+      <UniqueIdentifier>{d9343a66-fb37-4904-a4a7-1b84378d66c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\models\tools\colisions">
+      <UniqueIdentifier>{ed26432f-6008-41cc-bc0c-a730aa2be737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\models\tools\importer">
+      <UniqueIdentifier>{3154c46a-f826-4c96-a632-54a5e67b8506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\billboard">
+      <UniqueIdentifier>{31520a6f-5e99-484b-a1e8-12e2da15ee87}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Archivos de encabezado\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="third\soil\stb_image_aug.c">
+      <Filter>Archivos de encabezado\third\soil</Filter>
+    </ClCompile>
+    <ClCompile Include="axisalignedboundingbox.cpp">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClCompile>
+    <ClCompile Include="boundingpoint.cpp">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClCompile>
+    <ClCompile Include="boundingsphere.cpp">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClCompile>
+    <ClCompile Include="collider.cpp">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmap.cpp">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClCompile>
+    <ClCompile Include="Group.cpp">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard.cpp">
+      <Filter>Archivos de encabezado\billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="quad.cpp">
+      <Filter>Archivos de encabezado\billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="third\glew\glew.c">
+      <Filter>Archivos de encabezado\third\glew</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Triangulo.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstScene.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Archivos de encabezado\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderFile.h">
+      <Filter>Archivos de encabezado\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="includes_opengl.h">
+      <Filter>Archivos de encabezado\app</Filter>
+    </ClInclude>
+    <ClInclude Include="funciones.h">
+      <Filter>Archivos de encabezado\app</Filter>
+    </ClInclude>
+    <ClInclude Include="constantes.h">
+      <Filter>Archivos de encabezado\app</Filter>
+    </ClInclude>
+    <ClInclude Include="Maya.h">
+      <Filter>Archivos de encabezado\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometria.h">
+      <Filter>Archivos de encabezado\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertices.h">
+      <Filter>Archivos de encabezado\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorRR.h">
+      <Filter>Archivos de encabezado\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Modelo.h">
+      <Filter>Archivos de encabezado\models</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Archivos de encabezado\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Picture.h">
+      <Filter>Archivos de encabezado\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="third\glfw\glfw3.h">
+      <Filter>Archivos de encabezado\third\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="third\glfw\glfw3native.h">
+      <Filter>Archivos de encabezado\third\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="third\soil\stb_image_aug.h">
+      <Filter>Archivos de encabezado\third\soil</Filter>
+    </ClInclude>
+    <ClInclude Include="third\soil\stbi_DDS_aug.h">
+      <Filter>Archivos de encabezado\third\soil</Filter>
+    </ClInclude>
+    <ClInclude Include="third\soil\stbi_DDS_aug_c.h">
+      <Filter>Archivos de encabezado\third\soil</Filter>
+    </ClInclude>
+    <ClInclude Include="third\glew\glew.h">
+      <Filter>Archivos de encabezado\third\glew</Filter>
+    </ClInclude>
+    <ClInclude Include="terreno.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome.h">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </ClInclude>
+    <ClInclude Include="clouds.h">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </ClInclude>
+    <ClInclude Include="third\assimp\include\Importer.hpp">
+      <Filter>Archivos de encabezado\third\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="third\assimp\include\postprocess.h">
+      <Filter>Archivos de encabezado\third\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="third\assimp\include\scene.h">
+      <Filter>Archivos de encabezado\third\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="third\assimp\include\config.h">
+      <Filter>Archivos de encabezado\third\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="third\assimp\include\types.h">
+      <Filter>Archivos de encabezado\third\assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Archivos de encabezado\models\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="axisalignedboundingbox.h">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClInclude>
+    <ClInclude Include="boundingpoint.h">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClInclude>
+    <ClInclude Include="boundingsphere.h">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClInclude>
+    <ClInclude Include="collider.h">
+      <Filter>Archivos de encabezado\models\tools\colisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClInclude>
+    <ClInclude Include="Group.h">
+      <Filter>Archivos de encabezado\models\tools\importer</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard.h">
+      <Filter>Archivos de encabezado\billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="quad.h">
+      <Filter>Archivos de encabezado\billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Archivos de origen</Filter>
+    </ClInclude>
+    <ClInclude Include="agua.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePadRR.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\models\esfera\esfera.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\models\esfera\esfera.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\skybox\skybox.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\skybox\skybox.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\shaders\Triangulo.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\shaders\Triangulo.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\skybox\clouds.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\skybox\clouds.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\shaders\terreno.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="res\shaders\terreno.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="model.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="model.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="bill.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="bill.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="tree02.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="tree02.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="casa.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="casa.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="agua.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="agua.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="nave.vert">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+    <None Include="nave.frag">
+      <Filter>Archivos de encabezado\shaders\files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
