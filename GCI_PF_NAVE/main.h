@@ -12,7 +12,7 @@
 #include <exception>
 
 // librerias de terceros en sistema
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include "includes_opengl.h"
 
 // librerias de terceros propias

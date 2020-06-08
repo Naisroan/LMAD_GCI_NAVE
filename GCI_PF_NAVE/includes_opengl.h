@@ -3,10 +3,10 @@
 #ifndef _INCLUDES_OPENGL_
 #define _INCLUDES_OPENGL_
 
-#include "third/glew/glew.h"
+#include <glew.h>
 #include <gl/GLU.h>
 #include <gl/GL.h>
-#include "third/glfw/glfw3.h"
+#include <glfw3.h>
 
 static bool WND_FULLSCREEN = false;
 static int WND_SIZE_WIDTH = 1336;

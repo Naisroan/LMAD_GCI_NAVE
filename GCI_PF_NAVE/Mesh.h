@@ -1,7 +1,6 @@
 #pragma once
 
 #include "material.h"
-#include "collider.h"
 #include "Shader.h"
 
 class Mesh

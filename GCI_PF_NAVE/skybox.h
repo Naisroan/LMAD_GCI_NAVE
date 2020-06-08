@@ -5,8 +5,8 @@
 
 #include <vector>
 #include <string>
-#include <glm/glm.hpp>
-#include "third/soil/stb_image_aug.h"
+#include <glm.hpp>
+#include <stb_image_aug.h>
 #include "Geometria.h"
 #include "includes_opengl.h"
 #include "Camera.h"

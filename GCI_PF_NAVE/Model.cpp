@@ -10,22 +10,6 @@ GLvoid Model::Draw(Shader* program, mat4 view, mat4 projection)
 		group.Draw(program, materials, GetTransformMatrix(), view, projection);
 }
 
-GLvoid Model::Update(mat4 matrix)
-{
-	collider.Update(matrix);
-	for (auto& group : groups) group.Update(matrix);
-}
-
-GLboolean Model::Collides(Model* model)
-{
-	if (collider.Collides(&(model->collider)))
-		for (auto& group : groups)
-			for (auto& group2 : model->groups)
-				if (group.Collides(&group2)) return true;
-
-	return false;
-}
-
 Model* Model::ObjToModel(Shader* program, string relativePath, string fileName) {
 
 	vec3 minimum = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
@@ -55,7 +39,6 @@ Model* Model::ObjToModel(Shader* program, string relativePath, string fileName) 
 	Model* _model = new Model();
 	_model->groups = _groups;
 	_model->materials = _materials;
-	_model->collider = CalculateCollider(minimum, maximum);
 
 	return _model;
 }
@@ -97,7 +80,6 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 			{
 				if (!groupList.empty())
 				{
-					groupList.back().collider = CalculateCollider(groupMin, groupMax);
 					groupList.back().meshes.back().size = indexBuffer.size() - groupList.back().meshes.back().offset;
 
 					ComputeTangentSpace(vertexBuffer, indexBuffer);
@@ -194,7 +176,6 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 		file.close();
 	}
 
-	groupList.back().collider = CalculateCollider(groupMin, groupMax);
 	groupList.back().meshes.back().size = indexBuffer.size();
 
 	ComputeTangentSpace(vertexBuffer, indexBuffer);
@@ -397,20 +378,4 @@ GLvoid Model::CreateBuffers(Shader* program, Group& group, vector<Mesh::Vertex>&
 
 	vertices.clear();
 	indices.clear();
-}
-
-Collider Model::CalculateCollider(vec3& minimum, vec3& maximum)
-{
-	vec3 size = (maximum - minimum) * 0.5f;
-	vec3 position = minimum + size;
-	GLfloat radio = max(max(size.x, size.y), size.z);
-	Collider _collider = Collider();
-	_collider.aabb = AxisAlignedBoundingBox(minimum, maximum);
-	_collider.bs = BoundingSphere(position, radio);
-	_collider.bp = BoundingPoint(position);
-
-	minimum = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	maximum = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
-
-	return _collider;
 }

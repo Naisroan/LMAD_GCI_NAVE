@@ -74,8 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)GCI_PF_NAVE\third;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)third\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)GCI_PF_NAVE\third\glew;$(SolutionDir)GCI_PF_NAVE\third\soil;$(SolutionDir)GCI_PF_NAVE\third\glm\gtx;$(SolutionDir)GCI_PF_NAVE\third\glm\gtc;$(SolutionDir)GCI_PF_NAVE\third\glm;$(SolutionDir)GCI_PF_NAVE\third\glfw;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)third;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -101,12 +101,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GCI_PF_NAVE\third\glm\gtc;$(SolutionDir)GCI_PF_NAVE\third\glm\gtx;$(SolutionDir)GCI_PF_NAVE\third\soil;$(SolutionDir)GCI_PF_NAVE\third\glew;$(SolutionDir)GCI_PF_NAVE\third\glfw;$(SolutionDir)GCI_PF_NAVE\third\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;gdiplus.lib;glfw3.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;gdiplus.lib;glfw3.lib;xinput.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)third\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -143,12 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="axisalignedboundingbox.cpp" />
     <ClCompile Include="billboard.cpp" />
     <ClCompile Include="Bitmap.cpp" />
-    <ClCompile Include="boundingpoint.cpp" />
-    <ClCompile Include="boundingsphere.cpp" />
-    <ClCompile Include="collider.cpp" />
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -157,19 +153,14 @@
     <ClCompile Include="quad.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="third\glew\glew.c" />
     <ClCompile Include="third\soil\stb_image_aug.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="agua.h" />
-    <ClInclude Include="axisalignedboundingbox.h" />
     <ClInclude Include="billboard.h" />
     <ClInclude Include="Bitmap.h" />
-    <ClInclude Include="boundingpoint.h" />
-    <ClInclude Include="boundingsphere.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="clouds.h" />
-    <ClInclude Include="collider.h" />
     <ClInclude Include="constantes.h" />
     <ClInclude Include="FirstScene.h" />
     <ClInclude Include="funciones.h" />
@@ -193,11 +184,6 @@
     <ClInclude Include="skydome.h" />
     <ClInclude Include="terreno.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="third\assimp\include\config.h" />
-    <ClInclude Include="third\assimp\include\Importer.hpp" />
-    <ClInclude Include="third\assimp\include\postprocess.h" />
-    <ClInclude Include="third\assimp\include\scene.h" />
-    <ClInclude Include="third\assimp\include\types.h" />
     <ClInclude Include="third\glew\glew.h" />
     <ClInclude Include="third\glfw\glfw3.h" />
     <ClInclude Include="third\glfw\glfw3native.h" />
@@ -209,28 +195,22 @@
     <ClInclude Include="Vertices.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="agua.frag" />
-    <None Include="agua.vert" />
-    <None Include="bill.frag" />
-    <None Include="bill.vert" />
-    <None Include="casa.frag" />
-    <None Include="casa.vert" />
-    <None Include="model.frag" />
-    <None Include="model.vert" />
-    <None Include="nave.frag" />
-    <None Include="nave.vert" />
-    <None Include="res\models\esfera\esfera.frag" />
-    <None Include="res\models\esfera\esfera.vert" />
+    <None Include="res\shaders\agua.frag" />
+    <None Include="res\shaders\agua.vert" />
+    <None Include="res\shaders\bill.frag" />
+    <None Include="res\shaders\bill.vert" />
+    <None Include="res\shaders\casa.frag" />
+    <None Include="res\shaders\casa.vert" />
+    <None Include="res\shaders\model.frag" />
+    <None Include="res\shaders\model.vert" />
+    <None Include="res\shaders\nave.frag" />
+    <None Include="res\shaders\nave.vert" />
     <None Include="res\shaders\terreno.frag" />
     <None Include="res\shaders\terreno.vert" />
+    <None Include="res\shaders\tree02.frag" />
+    <None Include="res\shaders\tree02.vert" />
     <None Include="res\shaders\Triangulo.frag" />
     <None Include="res\shaders\Triangulo.vert" />
-    <None Include="res\skybox\clouds.frag" />
-    <None Include="res\skybox\clouds.vert" />
-    <None Include="res\skybox\skybox.frag" />
-    <None Include="res\skybox\skybox.vert" />
-    <None Include="tree02.frag" />
-    <None Include="tree02.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

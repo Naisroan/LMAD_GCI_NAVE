@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "third/glew/glew.h"
+#include <glew.h>
 #include "Bitmap.h"
 
 namespace ndev {

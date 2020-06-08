@@ -5,8 +5,8 @@
 
 #include <Windows.h>
 #include <vector>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm.hpp>
+#include <type_ptr.hpp>
 #include <stdexcept>
 #include <string>
 #include "ShaderFile.h"

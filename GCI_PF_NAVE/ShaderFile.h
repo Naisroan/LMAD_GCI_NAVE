@@ -5,7 +5,7 @@
 
 #include <Windows.h>
 #include <string>
-#include "third/glew/glew.h"
+#include <glew.h>
 #include <stdexcept>
 #include <fstream>
 #include <sstream>

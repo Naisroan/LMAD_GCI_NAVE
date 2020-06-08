@@ -5,7 +5,7 @@
 
 #include <WinUser.h>
 #include <wtypes.h>
-#include <glm/glm.hpp> // vec2, vec3, vec4 y radians
+#include <glm.hpp> // vec2, vec3, vec4 y radians
 #include <string>
 #include <time.h>
 
@@ -113,13 +113,15 @@ public:
         MessageBox(0, texto.c_str(), titulo.c_str(), tipoMensaje | MB_OK);
     }
 
-    static string ResourcePath(string fileName) 
+    static string GetCarpetaRecursos(string fileName) 
     {
         char executablePath[1024] = { '\0' };
         DWORD charsCopied = GetModuleFileName(NULL, executablePath, 1024);
 
+        string strPath = executablePath;
+        // + "\\..\\" + fileName;
         if (charsCopied > 0 && charsCopied < 1024)
-            return "../GCI_PF_NAVE/res/" + fileName;
+            return strPath + "\\..\\..\\..\\GCI_PF_NAVE\\res\\" + fileName;
     }
 
 private:

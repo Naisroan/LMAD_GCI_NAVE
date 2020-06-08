@@ -19,13 +19,3 @@ void Group::Draw(Shader* program, vector<Material>& materials, mat4 matrix, mat4
 	glBindVertexArray(0);
 	program->stopUsing();
 }
-
-void Group::Update(mat4 matrix)
-{
-	collider.Update(matrix);
-}
-
-GLboolean Group::Collides(Group* group)
-{
-	return collider.Collides(&(group->collider));
-}

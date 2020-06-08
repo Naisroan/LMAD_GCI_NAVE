@@ -5,8 +5,8 @@
 
 #include <string>
 #include <exception>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm.hpp>
+#include <matrix_transform.hpp>
 #include "Geometria.h"
 #include "Picture.h"
 #include "funciones.h"
@@ -98,13 +98,6 @@ private:
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		delete textura;
-
-		return true;
-	}
-
-	bool CargarModeloAnt3(string ruta, string& logMessage)
-	{
-
 
 		return true;
 	}
@@ -445,6 +438,8 @@ private:
 
 			CalcTanBin(*vert01, *vert02, *vert03);
 		}
+
+		return true;
 	}
 
 	void CalcTanBin(Vertices& vertex0, Vertices& vertex1, Vertices& vertex2) 

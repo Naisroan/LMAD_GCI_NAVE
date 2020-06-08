@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "third/glfw/glfw3.h"
+#include <glfw3.h>
 #include "Scene.h"
 #include "Triangulo.h"
 #include "Modelo.h"
@@ -355,64 +355,64 @@ private:
 	void CargarCamara()
 	{
 		camara = new Camera;
-		camara->SetPosition(vec3(25.0f, 10.0f, 30.0f));
+		camara->SetPosition(vec3(25.0f, 20.0f, 30.0f));
 	}
 
 	void CargarSky()
 	{
 		// orden right, left, top, bottom, back, front
 		skybox = new Skybox(vector<string> {
-			"res/skybox/clouds/bluecloud_lf.jpg",
-			"res/skybox/clouds/bluecloud_rt.jpg",
-			"res/skybox/clouds/bluecloud_up.jpg",
-			"res/skybox/clouds/bluecloud_dn.jpg",
-			"res/skybox/clouds/bluecloud_ft.jpg",
-			"res/skybox/clouds/bluecloud_bk.jpg"
+			Fun::GetCarpetaRecursos("skybox/clouds/bluecloud_lf.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/bluecloud_rt.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/bluecloud_up.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/bluecloud_dn.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/bluecloud_ft.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/bluecloud_bk.jpg")
 		},
 		vector<string>{
-			"res/skybox/clouds/yellowcloud_lf.jpg",
-			"res/skybox/clouds/yellowcloud_rt.jpg",
-			"res/skybox/clouds/yellowcloud_up.jpg",
-			"res/skybox/clouds/yellowcloud_dn.jpg",
-			"res/skybox/clouds/yellowcloud_ft.jpg",
-			"res/skybox/clouds/yellowcloud_bk.jpg"
+			Fun::GetCarpetaRecursos("skybox/clouds/yellowcloud_lf.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/yellowcloud_rt.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/yellowcloud_up.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/yellowcloud_dn.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/yellowcloud_ft.jpg"),
+			Fun::GetCarpetaRecursos("skybox/clouds/yellowcloud_bk.jpg")
 		},
 		vector<string> {
-			"res/skybox/noche/noche_left.png",
-			"res/skybox/noche/noche_right.png",
-			"res/skybox/noche/noche_up.png",
-			"res/skybox/noche/noche_down.png",
-			"res/skybox/noche/noche_front.png",
-			"res/skybox/noche/noche_back.png"
-		}, "res/skybox/skybox.vert", "res/skybox/skybox.frag");
+			Fun::GetCarpetaRecursos("skybox/noche/noche_left.png"),
+			Fun::GetCarpetaRecursos("skybox/noche/noche_right.png"),
+			Fun::GetCarpetaRecursos("skybox/noche/noche_up.png"),
+			Fun::GetCarpetaRecursos("skybox/noche/noche_down.png"),
+			Fun::GetCarpetaRecursos("skybox/noche/noche_front.png"),
+			Fun::GetCarpetaRecursos("skybox/noche/noche_back.png")
+		}, Fun::GetCarpetaRecursos("skybox/skybox.vert"), Fun::GetCarpetaRecursos("skybox/skybox.frag"));
 
-		m_clouds_plane = new Clouds("res/skybox/clouds/clouds_plane.obj", "res/skybox/clouds/clouds_plane.png",
-			"res/skybox/clouds.vert", "res/skybox/clouds.frag");
+		m_clouds_plane = new Clouds(Fun::GetCarpetaRecursos("skybox/clouds/clouds_plane.obj"), Fun::GetCarpetaRecursos("skybox/clouds/clouds_plane.png"),
+			Fun::GetCarpetaRecursos("skybox/clouds.vert"), Fun::GetCarpetaRecursos("skybox/clouds.frag"));
 
 		m_clouds_plane->SetPosition(vec3(0.0f, 100.0f, 0.0f));
 	}
 
 	void CargarTerreno()
 	{
-		terreno = new Terreno("res/terreno/terrenoMap5.png",
-			"res/terreno/v01/grass01v2.jpg", 
-			"res/terreno/v01/grass01_n.jpg",
-			"res/terreno/v01/grass02.jpg",
-			"res/terreno/v01/grass02_n.jpg",
-			"res/terreno/v01/multi_tex.jpg",
-			"res/shaders/terreno.vert", 
-			"res/shaders/terreno.frag");
+		terreno = new Terreno(Fun::GetCarpetaRecursos("terreno/terrenoMap5.png"),
+			Fun::GetCarpetaRecursos("terreno/v01/grass01v2.jpg"),
+			Fun::GetCarpetaRecursos("terreno/v01/grass01_n.jpg"),
+			Fun::GetCarpetaRecursos("terreno/v01/grass02.jpg"),
+			Fun::GetCarpetaRecursos("terreno/v01/grass02_n.jpg"),
+			Fun::GetCarpetaRecursos("terreno/v01/multi_tex.jpg"),
+			Fun::GetCarpetaRecursos("shaders/terreno.vert"),
+			Fun::GetCarpetaRecursos("shaders/terreno.frag"));
 
 		terreno->SetPosition(vec3(0.0f, 0.0f, 0.0f));
 	}
 
 	void CargarAgua()
 	{
-		agua = new Agua("res/agua/agua.png",
-			"res/agua/aguahm.jpg",
-			"res/agua/agua_specular.jpg",
-			"agua.vert",
-			"agua.frag");
+		agua = new Agua(Fun::GetCarpetaRecursos("agua/agua.png"),
+			Fun::GetCarpetaRecursos("agua/aguahm.jpg"),
+			Fun::GetCarpetaRecursos("agua/agua_specular.jpg"),
+			Fun::GetCarpetaRecursos("shaders/agua.vert"),
+			Fun::GetCarpetaRecursos("shaders/agua.frag"));
 
 		agua->SetPosition(vec3(310.0f, 0.3f, 0.0f));
 	}
@@ -425,12 +425,12 @@ private:
 		//	"Nave"
 		// --------------------------------------------------
 
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("nave.vert", GL_VERTEX_SHADER));
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("nave.frag", GL_FRAGMENT_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/nave.vert"), GL_VERTEX_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/nave.frag"), GL_FRAGMENT_SHADER));
 		sh_nave = new Shader(shaderFiles);
 		shaderFiles.clear();
 
-		m_nave = Model::ObjToModel(sh_nave, Fun::ResourcePath("models/nave"), "nave.obj");
+		m_nave = Model::ObjToModel(sh_nave, Fun::GetCarpetaRecursos("models/nave"), "nave.obj");
 		m_nave->SetPosition(vec3(0.0f, 0.0f, 0.0f));
 		m_nave->SetScale(vec3(0.7f, 0.7f, 0.7f));
 
@@ -438,12 +438,12 @@ private:
 		//	"Casa"
 		// --------------------------------------------------
 
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("casa.vert", GL_VERTEX_SHADER));
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("casa.frag", GL_FRAGMENT_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/casa.vert"), GL_VERTEX_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/casa.frag"), GL_FRAGMENT_SHADER));
 		sh_casa = new Shader(shaderFiles);
 		shaderFiles.clear();
 
-		m_casa = Model::ObjToModel(sh_casa, Fun::ResourcePath("models/casa"), "casa.obj");
+		m_casa = Model::ObjToModel(sh_casa, Fun::GetCarpetaRecursos("models/casa"), "casa.obj");
 
 		m_casa->SetRotation(vec3(0.0f, 160.0f, 0.0f));
 		m_casa->SetPosition(vec3(4.0f, 0.0f, -65.0f));
@@ -453,26 +453,26 @@ private:
 		//	"Roca"
 		// --------------------------------------------------
 
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("model.vert", GL_VERTEX_SHADER));
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("model.frag", GL_FRAGMENT_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/model.vert"), GL_VERTEX_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/model.frag"), GL_FRAGMENT_SHADER));
 		sh_roca = new Shader(shaderFiles);
 		shaderFiles.clear();
 
-		m_roca = Model::ObjToModel(sh_roca, Fun::ResourcePath("models/roca"), "Stone_Pack1_Stone_1.obj");
+		m_roca = Model::ObjToModel(sh_roca, Fun::GetCarpetaRecursos("models/roca"), "Stone_Pack1_Stone_1.obj");
 
 		// --------------------------------------------------
 		//	"Arboles"
 		// --------------------------------------------------
 
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("tree02.vert", GL_VERTEX_SHADER));
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("tree02.frag", GL_FRAGMENT_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/tree02.vert"), GL_VERTEX_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/tree02.frag"), GL_FRAGMENT_SHADER));
 		sh_arbol = new Shader(shaderFiles);
 		shaderFiles.clear();
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		m_arbol = Model::ObjToModel(sh_arbol, Fun::ResourcePath("models/tree02"), "Tree.obj");
+		m_arbol = Model::ObjToModel(sh_arbol, Fun::GetCarpetaRecursos("models/tree02"), "Tree.obj");
 
 		glDisable(GL_BLEND);
 
@@ -484,16 +484,16 @@ private:
 	{
 		vector<ShaderFile> shaderFiles;
 
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("bill.vert", GL_VERTEX_SHADER));
-		shaderFiles.push_back(ShaderFile::LoadShaderFromFile("bill.frag", GL_FRAGMENT_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/bill.vert"), GL_VERTEX_SHADER));
+		shaderFiles.push_back(ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos("shaders/bill.frag"), GL_FRAGMENT_SHADER));
 		sh_bill = new Shader(shaderFiles);
 		shaderFiles.clear();
 
-		bill_Arbusto = new Billboard(sh_bill, Fun::ResourcePath("bills/arbol.png"), vec2(1.0f, 1.0f));
-		bill_Arbusto2 = new Billboard(sh_bill, Fun::ResourcePath("bills/arbol2.png"), vec2(3.4f, 3.0f));
-		bill_Cesped = new Billboard(sh_bill, Fun::ResourcePath("bills/grass01.png"), vec2(1.0f, 1.0f));
-		bill_Flor = new Billboard(sh_bill, Fun::ResourcePath("bills/roca.png"), vec2(1.0f, 1.0f));
-		bill_Montania = new Billboard(sh_bill, Fun::ResourcePath("bills/mountain.png"), vec2(255.0f, 100.0f));
+		bill_Arbusto = new Billboard(sh_bill, Fun::GetCarpetaRecursos("bills/arbol.png"), vec2(1.0f, 1.0f));
+		bill_Arbusto2 = new Billboard(sh_bill, Fun::GetCarpetaRecursos("bills/arbol2.png"), vec2(3.4f, 3.0f));
+		bill_Cesped = new Billboard(sh_bill, Fun::GetCarpetaRecursos("bills/grass01.png"), vec2(1.0f, 1.0f));
+		bill_Flor = new Billboard(sh_bill, Fun::GetCarpetaRecursos("bills/roca.png"), vec2(1.0f, 1.0f));
+		bill_Montania = new Billboard(sh_bill, Fun::GetCarpetaRecursos("bills/mountain.png"), vec2(255.0f, 100.0f));
 	}
 
 	void CargarPosicionesRandom()

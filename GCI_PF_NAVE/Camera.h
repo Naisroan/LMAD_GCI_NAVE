@@ -3,8 +3,8 @@
 #ifndef _CAMERA_
 #define _CAMERA_
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm.hpp>
+#include <matrix_transform.hpp>
 
 using namespace glm;
 

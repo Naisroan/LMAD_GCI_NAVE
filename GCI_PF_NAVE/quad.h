@@ -1,10 +1,10 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <glew.h>
 #include <GL/GLU.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glfw3.h>
+#include <glm.hpp>
+#include <matrix_transform.hpp>
 
 #include <cassert>
 #include <iostream>

@@ -7,9 +7,9 @@
 #include <Windows.h>
 #include <vector>
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm.hpp>
+#include <matrix_transform.hpp>
+#include <type_ptr.hpp>
 
 #include "includes_opengl.h"
 #include "input.h"
