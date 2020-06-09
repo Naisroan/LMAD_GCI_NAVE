@@ -10,8 +10,8 @@ GLvoid Model::Draw(Shader* program, mat4 view, mat4 projection)
 		group.Draw(program, materials, GetTransformMatrix(), view, projection);
 }
 
-Model* Model::ObjToModel(Shader* program, string relativePath, string fileName) {
-
+Model* Model::ObjToModel(Shader* program, string relativePath, string fileName) 
+{
 	vec3 minimum = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
 	vec3 maximum = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
 

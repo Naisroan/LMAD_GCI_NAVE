@@ -6,18 +6,9 @@
 #include <glm.hpp>
 #include <matrix_transform.hpp>
 
-#include <cassert>
-#include <iostream>
-#include <stdexcept>
-#include <algorithm>
-#include <cmath>
-#include <vector>
-#include <map>
-
 #include "Shader.h"
 #include "Texture.h"
 
-using namespace std;
 using namespace glm;
 using namespace ndev;
 

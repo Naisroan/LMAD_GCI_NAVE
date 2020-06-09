@@ -47,7 +47,6 @@ void main(void)
         }
     }
 
-
     float factor = (texCoords.y - lowerLimit) / (upperLimit - lowerLimit);
     factor = clamp(factor, 0.0f, 1.0f);
 

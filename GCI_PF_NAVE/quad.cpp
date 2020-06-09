@@ -2,9 +2,9 @@
 
 Quad::~Quad() { }
 
-Quad::Quad(Shader* _gProgram)
+Quad::Quad(Shader* _shader)
 {
-	gProgram = _gProgram;
+	gProgram = _shader;
 
 	GLfloat vertexData[] = {
 		0.0, 0.0, 0.0f,		0.0, 0.0,

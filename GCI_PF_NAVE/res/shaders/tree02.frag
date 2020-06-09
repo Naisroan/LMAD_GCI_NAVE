@@ -17,15 +17,11 @@ uniform bool hasNormalMap;
 uniform bool hasAmbientMap;
 uniform bool hasDiffuseMap;
 uniform bool hasSpecularMap;
-uniform bool hasShininessMap;
-uniform bool hasTransparencyMap;
 
 uniform sampler2D normalMap;
 uniform sampler2D ambientMap;
 uniform sampler2D diffuseMap;
 uniform sampler2D specularMap;
-uniform sampler2D shininessMap;
-uniform sampler2D transparencyMap;
 
 in vec3 fragPosition;
 in vec2 fragTexCoord;
@@ -56,8 +52,6 @@ void main()
     diffusePixel = hasDiffuseMap ? texture(diffuseMap, fragTexCoord).xyz : vec3(1.0f, 1.0f, 1.0f);
     ambientPixel = hasAmbientMap ? texture(ambientMap, fragTexCoord).xyz : vec3(1.0f, 1.0f, 1.0f) * diffusePixel;
     specularPixel = hasSpecularMap ? texture(specularMap, fragTexCoord).x : 1.0f;
-    shininessPixel = hasShininessMap ? texture(shininessMap, fragTexCoord).x : 1.0f;
-    transparencyPixel = hasTransparencyMap ? texture(transparencyMap, fragTexCoord).x : 1.0f;
     
     normal = fragNormal;
 
