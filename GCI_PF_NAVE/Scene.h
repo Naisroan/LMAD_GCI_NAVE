@@ -31,12 +31,9 @@ private:
 	const int FrameDelay = 1000 / FPS;
 
 	double DeltaTime = 0.0f;
-	double LastTime = 0.0f;
+	double FinalTime = 0.0f;
 
-	double PreviousTime = 0.0f;
-	int FrameCount = 0;
-
-	GLFWwindow* GameWindow = 0;
+	HWND* GameWindow = 0;
 
 protected:
 
@@ -50,20 +47,16 @@ protected:
 
 public:
 
-	Scene(GLFWwindow* window)
+	Scene(HWND* window)
 	{
 		GameWindow = window;
-		LastTime = GetGameSecondsElapsed();
-		PreviousTime = GetGameSecondsElapsed();
+		FinalTime = GetGameSecondsElapsed();
 	}
 
 	void Draw()
 	{
 		double TimeNow = GetGameSecondsElapsed();
-		DeltaTime = (float)(TimeNow - LastTime);
-
-		// contador de fps
-		// ContarFPS(TimeNow, true);
+		DeltaTime = (float)(TimeNow - FinalTime);
 
 		// reinicia la ventana (pinta de un color)
 		ClearWindow();	
@@ -71,7 +64,7 @@ public:
 		// logica de juego (movimientos, animaciones, etc.) 
 		Update();		
 
-		LastTime = TimeNow;
+		FinalTime = TimeNow;
 
 		// dibuja (buffers, shaders, etc.)
 		Render();
@@ -79,12 +72,12 @@ public:
 
 	double GetGameSecondsElapsed()
 	{
-		return glfwGetTime();
+		return clock() / (float)CLOCKS_PER_SEC;
 	}
 
 	double GetGameMillisElapsed()
 	{
-		return glfwGetTime() * 1000;
+		return clock();
 	}
 
 	float GetDeltaTime()
@@ -97,7 +90,7 @@ public:
 		return perspective(radians((float)FOV), ((float)WND_SIZE_WIDTH / (float)WND_SIZE_HEIGHT), (float)SCREEN_NEAR, (float)SCREEN_FAR);
 	}
 
-	GLFWwindow* GetGameWindow()
+	HWND* GetGameWindow()
 	{
 		return GameWindow;
 	}
@@ -164,20 +157,6 @@ public:
 	}
 
 private:
-
-	void ContarFPS(float timeNow, bool display = false)
-	{
-		FrameCount++;
-
-		if (timeNow - PreviousTime >= 1.0f)
-		{
-			if (display)
-				cout << "FPS: " << FrameCount << endl;
-
-			FrameCount = 0;
-			PreviousTime = timeNow;
-		}
-	}
 
 	void ClearWindow()
 	{

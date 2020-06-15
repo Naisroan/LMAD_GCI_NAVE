@@ -101,12 +101,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GCI_PF_NAVE\third\glm\gtc;$(SolutionDir)GCI_PF_NAVE\third\glm\gtx;$(SolutionDir)GCI_PF_NAVE\third\soil;$(SolutionDir)GCI_PF_NAVE\third\glew;$(SolutionDir)GCI_PF_NAVE\third\glfw;$(SolutionDir)GCI_PF_NAVE\third\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GCI_PF_NAVE\third\glm\gtc;$(SolutionDir)GCI_PF_NAVE\third\glm\gtx;$(SolutionDir)GCI_PF_NAVE\third\soil;$(SolutionDir)GCI_PF_NAVE\third\glew;$(SolutionDir)GCI_PF_NAVE\third\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;gdiplus.lib;glfw3.lib;xinput.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;gdiplus.lib;xinput.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)third\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

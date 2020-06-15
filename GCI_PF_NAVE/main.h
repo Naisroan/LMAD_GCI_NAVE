@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #ifndef _MAIN_
 #define _MAIN_
 
@@ -25,57 +23,61 @@
 using namespace std;
 using namespace glm;
 
-// variables globales
-GLFWwindow* GameWindow;
+// constantes
+const char* NOMBRE_CLASE_VENTANA = "WND_NAVE_CLASS";
 
+// variables globales
+static HINSTANCE _HInstance;
+static HWND _HWnd;
+static HDC _HDC;
+static HGLRC _HGLRC;
 static float CursorPosX;
 static float CursorPosY;
+
 bool FirstInit = true;
+bool FocusWindow = false;
 
 // escenas
 FirstScene* _FirstScene;
 
 // prototipos
-void GameLoop();
+bool CrearVentana(HWND& hWnd, HINSTANCE& hInstance, HDC& hDC, HGLRC& hGLRC, string& logMessage);
+bool IniciarOpenGL(string& logMessage);
+bool IniciarGlew(string& logMessage);
+void GameLoop(HWND hWnd, HDC hDC);
+void LimpiarVentana(HWND& hWnd, HINSTANCE& hInstance, HDC& hDC, HGLRC& hGLRC);
+void DetectarMovimientoMouse();
+void OnResize(HWND hWnd, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // definiciones
-void OnResize()
+bool CrearVentana(HWND& hWnd, HINSTANCE& hInstance, HDC& hDC, HGLRC& hGLRC, string& logMessage)
 {
-	int width, size;
-	int xPos, yPos;
+	WNDCLASSEX wndClass;
 
-	glfwGetWindowSize(GameWindow, &width, &size);
-	glfwGetWindowPos(GameWindow, &xPos, &yPos);
+	// creacion de la clase, estructura de la ventana
+	wndClass.hInstance = hInstance;
+	wndClass.lpszClassName = NOMBRE_CLASE_VENTANA;
+	wndClass.lpfnWndProc = WndProc;
+	wndClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC; // dibuja de nuevo al cambiar el ancho y/o altura
+	wndClass.cbSize = sizeof(WNDCLASSEX);
 
-	WND_SIZE_WIDTH = width;
-	WND_SIZE_HEIGHT = size;
+	// apariencia
+	wndClass.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+	wndClass.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
+	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndClass.lpszMenuName = NULL;
+	wndClass.cbClsExtra = 0;
+	wndClass.cbWndExtra = 0;
+	// wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	wndClass.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0));
 
-	CursorPosX = xPos + (WND_SIZE_WIDTH / 2);
-	CursorPosY = yPos + (WND_SIZE_HEIGHT / 2);
-
-	glViewport(0, 0, WND_SIZE_WIDTH, WND_SIZE_HEIGHT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(FOV, (GLfloat)WND_SIZE_WIDTH / (GLfloat)WND_SIZE_HEIGHT, SCREEN_NEAR, SCREEN_FAR);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-
-bool CrearVentana(string& logMessage)
-{
-	// verificamos que inicia el glfw
-	if (!glfwInit())
+	// registro de la clase
+	if (!RegisterClassEx(&wndClass))
 	{
-		logMessage = MSG_ERROR_GLFW;
+		logMessage = MSG_ERROR_REGISTRO_VENTANA;
 		return false;
 	}
-
-	// establecemos compatibilidad con opengl (no se exactamente para que funcionen)
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// calculamos algunos valores para la posicion de la ventana
 	vec2 screenResSize = Fun::GetDesktopWindowSize();
@@ -84,52 +86,96 @@ bool CrearVentana(string& logMessage)
 	int wndPosY = WND_FULLSCREEN ? 0 : screenResSize.y / 2 - WND_SIZE_HEIGHT / 2;
 	int wndWidthSize = WND_FULLSCREEN ? screenResSize.x : WND_SIZE_WIDTH;
 	int wndHeightSize = WND_FULLSCREEN ? screenResSize.y : WND_SIZE_HEIGHT;
-	
+
 	// establecemos la posicion del cursor por default
 	CursorPosX = wndPosX + (wndWidthSize / 2);
 	CursorPosY = wndPosY + (wndHeightSize / 2);
 
-	// creacion de la ventana
-	if (WND_FULLSCREEN)
-	{
-		// establecemos pantalla completa si asi se indica
-		GameWindow = glfwCreateWindow(WND_SIZE_WIDTH, WND_SIZE_HEIGHT, APP_NAME, glfwGetPrimaryMonitor(), NULL);
-	}
-	else
-	{
-		GameWindow = glfwCreateWindow(WND_SIZE_WIDTH, WND_SIZE_HEIGHT, APP_NAME, NULL, NULL);
-	}
+	// establecemos pantalla completa si asi se indica
+	Fun::EstablecerModoPantallaCompleta(WND_FULLSCREEN);
 
-	if (!GameWindow)
+	// creacion de la ventana
+	hWnd = CreateWindowEx(0,
+		NOMBRE_CLASE_VENTANA,
+		APP_NAME,
+		WND_FULLSCREEN ? WS_POPUP : WS_OVERLAPPEDWINDOW,
+		wndPosX,
+		wndPosY,
+		wndWidthSize,
+		wndHeightSize,
+		0,
+		NULL,
+		hInstance,
+		NULL);
+
+	if (hWnd == NULL)
 	{
 		logMessage = MSG_ERROR_CREACION_VENTANA;
 		return false;
 	}
 
-	// configuramos la ventana
+	// obtenemos el contexto del dispositivo
+	hDC = GetDC(hWnd);
 
-	// > posicion de la ventana
-	glfwSetWindowPos(GameWindow, wndPosX, wndPosY);
+	if (hDC == NULL)
+	{
+		logMessage = MSG_ERROR_CONTEXTO_DISPOSITIVO;
+		return false;
+	}
 
-	// > le indicamos que no se puede reajustar su tamaño
-	glfwSetWindowAttrib(GameWindow, GLFW_RESIZABLE, GLFW_FALSE);	
+	// creamos el formato de pixeles para el dipositivo de contexto de la ventana
+	PIXELFORMATDESCRIPTOR pfd =
+	{
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,    // Flags
+		PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
+		32,                   // Colordepth of the framebuffer.
+		0, 0, 0, 0, 0, 0,
+		0,
+		0,
+		0,
+		0, 0, 0, 0,
+		24,                   // Number of bits for the depthbuffer
+		8,                    // Number of bits for the stencilbuffer
+		0,                    // Number of Aux buffers in the framebuffer.
+		PFD_MAIN_PLANE,
+		0,
+		0, 0, 0
+	};
 
-	// > le indicamos que no tenga bordes porque se ven feos xd
-	glfwSetWindowAttrib(GameWindow, GLFW_DECORATED, GLFW_FALSE);		
+	// buscamos un formato que coincida con nuestra configuracion
+	int pixelFormat = ChoosePixelFormat(hDC, &pfd);
 
-	// > posicion de la ventana
-	glfwSetInputMode(GameWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);	
+	if (pixelFormat == 0)
+	{
+		logMessage = MSG_ERROR_PIXELFORMAT;
+		return false;
+	}
 
-	// > establecemos la posicion del cursor
-	glfwSetCursorPos(GameWindow, 0, 0);				
+	// si se encontro, lo establecemos al contexto del dispositivo
+	if (!SetPixelFormat(hDC, pixelFormat, &pfd))
+	{
+		logMessage = MSG_ERROR_ESTABLECER_PIXELFORMAT;
+		return false;
+	}
 
-	// > establecemos que OpenGL trabajara en la nueva ventana creada
-	glfwMakeContextCurrent(GameWindow);
+	// creamos el contexto para OpenGL (donde se representara todos los pixeles dibujados)
+	hGLRC = wglCreateContext(hDC);
 
-	// > establecemos evento si es que se cambia de tamaño
-	// glfwSetWindowSizeCallback(GameWindow, OnResize);
-	OnResize();
-	
+	if (hGLRC == NULL)
+	{
+		logMessage = MSG_ERROR_CONTEXTO_REPRESENTACION;
+		return false;
+	}
+
+	// ya creado el contexto de representacion hay que activarlo
+	if (!wglMakeCurrent(hDC, hGLRC))
+	{
+		logMessage = MSG_ERROR_CONTEXTO_REPRESENTACION_ACTIVAR;
+		return false;
+	}
+
 	return true;
 }
 
@@ -158,6 +204,34 @@ bool IniciarGlew(string& logMessage)
 	}
 
 	return true;
+}
+
+void LimpiarVentana(HWND& hWnd, HINSTANCE& hInstance, HDC& hDC, HGLRC& hGLRC)
+{
+	ChangeDisplaySettings(NULL, 0);
+	ShowCursor(TRUE);
+	wglMakeCurrent(NULL, NULL);
+	wglDeleteContext(hGLRC);
+	ReleaseDC(hWnd, hDC);
+	UnregisterClass(NOMBRE_CLASE_VENTANA, hInstance);
+}
+
+void DetectarMovimientoMouse()
+{
+	if (FirstInit)
+		return;
+
+	glm::vec2 cursorPos = Fun::GetCursorPosition();
+
+	float xPos = cursorPos.x;
+	float yPos = cursorPos.y;
+
+	// con los offset detectamos si hubo un movmiento, ya sea vertical o horizontal
+	float xOffset = xPos - CursorPosX;
+	float yOffset = yPos - CursorPosY;
+
+	Input::MouseX = xOffset;
+	Input::MouseY = yOffset;
 }
 
 #endif // !_MAIN_

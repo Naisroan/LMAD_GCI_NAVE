@@ -2,7 +2,6 @@
 
 #include <glew.h>
 #include <GL/GLU.h>
-#include <glfw3.h>
 #include <glm.hpp>
 #include <matrix_transform.hpp>
 

@@ -6,7 +6,6 @@
 #include <glew.h>
 #include <gl/GLU.h>
 #include <gl/GL.h>
-#include <glfw3.h>
 
 static bool WND_FULLSCREEN = false;
 static int WND_SIZE_WIDTH = 1336;

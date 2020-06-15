@@ -3,6 +3,8 @@
 #ifndef _INPUT_
 #define _INPUT_
 
+#include <Windows.h>
+
 #define CANT_TECLAS 256
 
 class Input 
@@ -15,12 +17,25 @@ public:
 		W = 87,
 		D = 68,
 		S = 83,
-		A = 65
+		A = 65,
+		ESC = 27,
+		SPACE = 32,
+		L_SHIFT = VK_LSHIFT,
+		I = 73,
+		L = 76,
+		K = 75,
+		J = 74,
+		U = 85,
+		O = 79,
+		UP = VK_UP,
+		DOWN = VK_DOWN,
+		LEFT = VK_LEFT,
+		RIGHT = VK_RIGHT,
 	};
 
 	static bool Keys[CANT_TECLAS];
-	static int MouseX;
-	static int MouseY;
+	static float MouseX;
+	static float MouseY;
 
 	static bool KeyIsPressed(int tecla)
 	{
@@ -37,12 +52,12 @@ public:
 		memset(&Input::Keys, false, sizeof(Keys));
 	}
 
-	static int GetMouseX()
+	static float GetMouseX()
 	{
 		return MouseX;
 	}
 
-	static int GetMouseY()
+	static float GetMouseY()
 	{
 		return MouseY;
 	}
@@ -55,7 +70,7 @@ public:
 };
 
 bool Input::Keys[CANT_TECLAS] = { false };
-int Input::MouseX = 0;
-int Input::MouseY = 0;
+float Input::MouseX = 0;
+float Input::MouseY = 0;
 
 #endif // !_INPUT_

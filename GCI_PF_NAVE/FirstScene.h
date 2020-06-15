@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <glfw3.h>
 #include "Scene.h"
 #include "terreno.h"
 #include "Camera.h"
@@ -91,7 +90,7 @@ private:
 
 public:
 
-	FirstScene(GLFWwindow* window)
+	FirstScene(HWND* window)
 		: Scene(window)
 	{
 		srand(time(NULL));
@@ -752,29 +751,23 @@ private:
 
 	void Input()
 	{
-		static GLFWwindow* gameWindow = GetGameWindow();
-
-		// cerrar ventana
-		if (glfwGetKey(gameWindow, GLFW_KEY_ESCAPE))
-		{
-			glfwSetWindowShouldClose(gameWindow, 1);
-		}
+		static HWND* gameWindow = GetGameWindow();
 
 		if (joystick->BotonPresionado(GamePadRR::Boton::BACK))
 		{
-			glfwSetWindowShouldClose(gameWindow, 1);
+			DestroyWindow(*gameWindow);
 		}
 		
-		InputColisiones(gameWindow);
-		InputMoveDirectionCamara(gameWindow);
+		InputColisiones();
+		InputMoveDirectionCamara();
 		InputGiroJoystick();
-		InputLightPosition(gameWindow, true);
-		InputLightColor(gameWindow, true);
+		InputLightPosition(true);
+		InputLightColor(true);
 
 		// printf("Camara: X: %f, Y: %f, Z: %f\n", camara->GetPosition().x, camara->GetPosition().y, camara->GetPosition().z);
 	}
 
-	void InputColisiones(GLFWwindow* gameWindow)
+	void InputColisiones()
 	{
 		vec3 cameraPosition = camara->GetPosition();
 		float radioNave = 3.0f;
@@ -832,7 +825,7 @@ private:
 		}
 
 		InputMoveJoystick();
-		InputMoveCamara(gameWindow);
+		InputMoveCamara();
 	}
 
 	void InputMoveJoystick()
@@ -875,9 +868,9 @@ private:
 		camara->Rotate(GiroVertical * 3.0f, GiroHorizontal * 3.0f);
 	}
 
-	void InputMoveCamara(GLFWwindow* gameWindow)
+	void InputMoveCamara()
 	{
-		if (glfwGetKey(gameWindow, GLFW_KEY_LEFT_SHIFT))
+		if (Input::KeyIsPressed(Input::CustomKey::L_SHIFT))
 		{
 			camara->SetIsRun(true);
 		}
@@ -886,51 +879,46 @@ private:
 			camara->SetIsRun(false);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_W))
+		if (Input::KeyIsPressed(Input::CustomKey::W))
 		{
 			camara->Move(1.0f, 0.0f, GetDeltaTime());
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_D))
+		if (Input::KeyIsPressed(Input::CustomKey::D))
 		{
 			camara->Move(0.0f, 1.0f, GetDeltaTime());
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_S))
+		if (Input::KeyIsPressed(Input::CustomKey::S))
 		{
 			camara->Move(-1.0f, 0.0f, GetDeltaTime());
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_A))
+		if (Input::KeyIsPressed(Input::CustomKey::A))
 		{
 			camara->Move(0.0f, -1.0f, GetDeltaTime());
 		}
 
-		// activamos la opcion de volaaar
-		/*if (glfwGetKey(gameWindow, GLFW_KEY_Q))
-		{
-			camara->SetIsFly(!camara->GetIsFly());
-		}*/
-
-		if (camara->GetIsFly() && glfwGetKey(gameWindow, GLFW_KEY_SPACE))
+		if (camara->GetIsFly() && Input::KeyIsPressed(Input::CustomKey::SPACE))
 		{
 			camara->Float(GetDeltaTime());
 		}
 	}
 
-	void InputMoveDirectionCamara(GLFWwindow* gameWindow)
+	void InputMoveDirectionCamara()
 	{
 		// direccion con mouse
 		double mouseX, mouseY;
 
-		glfwGetCursorPos(gameWindow, &mouseX, &mouseY);
+		mouseX = Input::GetMouseX();
+		mouseY = Input::GetMouseY();
 
 		camara->Rotate((float)-mouseY, (float)mouseX);
 	}
 
-	void InputLightPosition(GLFWwindow* gameWindow, bool show = false)
+	void InputLightPosition(bool show = false)
 	{
-		if (glfwGetKey(gameWindow, GLFW_KEY_I))
+		if (Input::KeyIsPressed(Input::CustomKey::I))
 		{
 			lightPosition += vec3(0.0f, 0.0f, 1.0f);
 
@@ -938,7 +926,7 @@ private:
 				printf_s("PosLight(%f, %f, %f)\n", lightPosition.x, lightPosition.y, lightPosition.z);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_L))
+		if (Input::KeyIsPressed(Input::CustomKey::L))
 		{
 			lightPosition += vec3(1.0f, 0.0f, 0.0f);
 
@@ -946,7 +934,7 @@ private:
 				printf_s("PosLight(%f, %f, %f)\n", lightPosition.x, lightPosition.y, lightPosition.z);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_K))
+		if (Input::KeyIsPressed(Input::CustomKey::K))
 		{
 			lightPosition += vec3(0.0f, 0.0f, -1.0f);
 
@@ -954,7 +942,7 @@ private:
 				printf_s("PosLight(%f, %f, %f)\n", lightPosition.x, lightPosition.y, lightPosition.z);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_J))
+		if (Input::KeyIsPressed(Input::CustomKey::J))
 		{
 			lightPosition += vec3(-1.0f, 0.0f, 0.0f);
 
@@ -962,7 +950,7 @@ private:
 				printf_s("PosLight(%f, %f, %f)\n", lightPosition.x, lightPosition.y, lightPosition.z);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_U))
+		if (Input::KeyIsPressed(Input::CustomKey::U))
 		{
 			lightPosition += vec3(0.0f, 1.0f, 0.0f);
 
@@ -970,7 +958,7 @@ private:
 				printf_s("PosLight(%f, %f, %f)\n", lightPosition.x, lightPosition.y, lightPosition.z);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_O))
+		if (Input::KeyIsPressed(Input::CustomKey::O))
 		{
 			lightPosition += vec3(0.0f, -1.0f, 0.0f);
 
@@ -979,9 +967,9 @@ private:
 		}
 	}
 
-	void InputLightColor(GLFWwindow* gameWindow, bool show = false)
+	void InputLightColor(bool show = false)
 	{
-		if (glfwGetKey(gameWindow, GLFW_KEY_UP))
+		if (Input::KeyIsPressed(Input::CustomKey::UP))
 		{
 			skyColor = skyColor + vec3(0.01, 0.01, 0.01);
 
@@ -989,7 +977,7 @@ private:
 				printf_s("SkyColor(%f, %f, %f)\n", skyColor.x, skyColor.y, skyColor.z);
 		}
 
-		if (glfwGetKey(gameWindow, GLFW_KEY_DOWN))
+		if (Input::KeyIsPressed(Input::CustomKey::DOWN))
 		{
 			skyColor = skyColor + vec3(-0.01, -0.01, -0.01);
 
@@ -997,46 +985,6 @@ private:
 				printf_s("SkyColor(%f, %f, %f)\n", skyColor.x, skyColor.y, skyColor.z);
 		}
 	}
-
-	vec3 InputMoveModelo(GLFWwindow* gameWindow, Model* model)
-	{
-		vec3 position = vec3(model->GetPosition());
-
-		if (glfwGetKey(GetGameWindow(), GLFW_KEY_T))
-		{
-			position += vec3(0.0f, 0.0f, -1.0f);
-		}
-
-		if (glfwGetKey(GetGameWindow(), GLFW_KEY_G))
-		{
-			position += vec3(0.0f, 0.0f, 1.0f);
-		}
-
-		if (glfwGetKey(GetGameWindow(), GLFW_KEY_F))
-		{
-			position += vec3(1.0f, 0.0f, 0.0f);
-		}
-
-		if (glfwGetKey(GetGameWindow(), GLFW_KEY_H))
-		{
-			position += vec3(-1.0f, 0.0f, 0.0f);
-		}
-
-		if (glfwGetKey(GetGameWindow(), GLFW_KEY_R))
-		{
-			position += vec3(0.0f, 1.0f, 0.0f);
-		}
-
-		if (glfwGetKey(GetGameWindow(), GLFW_KEY_Y))
-		{
-			position += vec3(0.0f, -1.0f, 0.0f);
-		}
-
-		printf("%f %f %f\n", position.x, position.y, position.z);
-
-		return position;
-	}
-
 };
 
 #endif // !_FIRSTSCENE_
