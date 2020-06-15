@@ -18,11 +18,8 @@ class Agua
 
 private:
 
-	static float MovementVertex;
-	static float MovementTexture;
-
-	const float DEFAULT_ANCHO = 500.0f;
-	const float DEFAULT_PROFUNIDAD = 500.0f;
+	const float DEFAULT_ANCHO = 250.0f;
+	const float DEFAULT_PROFUNIDAD = 250.0f;
 
 	float DeltaX;
 	float DeltaZ;
@@ -30,13 +27,17 @@ private:
 	int VertexZ;
 
 	unsigned int TextureID;
+	unsigned int TextureNormalID;
 	unsigned int TextureSpecularID;
 
 	Maya _MayaAgua;
 
 public:
 
-	Agua(string rutaTextura, string rutaAltura, string rutaTexturaSpecular, string rutaVertShader, string rutaFragShader)
+	float MovementVertex = 0.5f;
+	float MovementTexture = 0.0f;
+
+	Agua(string rutaTextura, string rutaAltura, string rutaTexturaNormal, string rutaTexturaSpecular, string rutaVertShader, string rutaFragShader)
 		: Geometria(rutaVertShader.c_str(), rutaFragShader.c_str())
 	{
 		Picture* texAltura = new Picture(rutaAltura.c_str());
@@ -51,7 +52,7 @@ public:
 
 		delete texAltura;
 
-		GenerarTexturas(rutaTextura, rutaTexturaSpecular);
+		GenerarTexturas(rutaTextura, rutaTexturaNormal, rutaTexturaSpecular);
 		GenerarVAO();
 	}
 
@@ -71,15 +72,19 @@ public:
 		_Shader->setUniform("lightPos", lightPosition);
 
 		_Shader->setUniform("shaderTexture", 0);
-		_Shader->setUniform("shaderSpecular", 1);
+		_Shader->setUniform("shaderNormal", 1);
+		_Shader->setUniform("shaderSpecular", 2);
 
-		_Shader->setUniform("movementVertex", Agua::MovementVertex);
-		_Shader->setUniform("movementTexture", Agua::MovementTexture);
+		_Shader->setUniform("movementVertex", MovementVertex);
+		_Shader->setUniform("movementTexture", MovementTexture);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, TextureID);
 
 		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, TextureNormalID);
+
+		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, TextureSpecularID);
 
 		glBindVertexArray(VAO);
@@ -87,14 +92,14 @@ public:
 
 		static bool toUp = true;
 		
-		if (Agua::MovementVertex >= 1.5f)
+		if (MovementVertex >= 1.5f)
 			toUp = false;
 
-		if (Agua::MovementVertex <= 0.5f)
+		if (MovementVertex <= 0.5f)
 			toUp = true;
 
-		Agua::MovementTexture += 0.02;
-		Agua::MovementVertex += toUp ? 0.01f : -0.01f;
+		MovementTexture += 0.01;
+		MovementVertex += toUp ? 0.01f : -0.01f;
 
 		_Shader->stopUsing();
 
@@ -210,7 +215,7 @@ private:
 		_MayaAgua.Indices = 0;
 	}
 
-	void GenerarTexturas(string rutaTextura, string rutaTexturaSpecular)
+	void GenerarTexturas(string rutaTextura, string rutaTexturaNormal, string rutaTexturaSpecular)
 	{
 		Picture* textura = new Picture(rutaTextura.c_str());
 
@@ -228,6 +233,23 @@ private:
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		delete textura;
+
+		Picture* texturaNormal = new Picture(rutaTexturaNormal.c_str());
+
+		glGenTextures(1, &TextureNormalID);
+		glBindTexture(GL_TEXTURE_2D, TextureNormalID);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texturaNormal->GetWidth(), texturaNormal->GetHeight(), 0,
+			GL_RGBA, GL_UNSIGNED_BYTE, texturaNormal->GetBytesArray());
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		delete texturaNormal;
 
 		Picture* texturaSpecular = new Picture(rutaTexturaSpecular.c_str());
 
@@ -270,8 +292,5 @@ public:
 	}
 
 };
-
-float Agua::MovementTexture = 0.0f;
-float Agua::MovementVertex = 0.5f;
 
 #endif // !__AGUA__

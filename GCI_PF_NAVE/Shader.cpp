@@ -1,91 +1,80 @@
 #include "Shader.h"
 
-Shader::Shader(const std::vector<ShaderFile>& shaders) :
-    _object(0)
+Shader::Shader(const char* rutaVertexShader, const char* rutaPixelShader)
 {
     string errorMessage = "";
 
-    if (shaders.size() <= 0)
-    {
-        errorMessage = "No hay shaders en la lista para crear";
+    // se carga el vertex  shader
+    ShaderFile sh_vertex = ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos(rutaVertexShader), GL_VERTEX_SHADER);
 
-        Fun::ShowMessage(MSG_CAPTION_ERROR, errorMessage, Fun::TipoMensaje::Error);
-        throw std::runtime_error(errorMessage);
-        PostQuitMessage(0);
-    }
+    // se carga el pixel shader
+    ShaderFile sh_pixel = ShaderFile::LoadShaderFromFile(Fun::GetCarpetaRecursos(rutaPixelShader), GL_FRAGMENT_SHADER);
 
-    //create the program object
-    _object = glCreateProgram();
+    // se crea el programa global
+    shader = glCreateProgram();
 
-    if (_object == 0)
+    if (shader == 0)
     {
         errorMessage = "Fallo al crear el shader";
 
         Fun::ShowMessage(MSG_CAPTION_ERROR, errorMessage, Fun::TipoMensaje::Error);
         throw std::runtime_error(errorMessage);
-        PostQuitMessage(0);
     }
 
-    //attach all the shaders
-    for (unsigned i = 0; i < shaders.size(); ++i)
-    {
-        glAttachShader(_object, shaders[i].object());
-    }
+    glAttachShader(shader, sh_vertex.GetShader());
+    glAttachShader(shader, sh_pixel.GetShader());
 
-    //link the shaders together
-    glLinkProgram(_object);
+    glLinkProgram(shader);
 
-    //detach all the shaders
-    for (unsigned i = 0; i < shaders.size(); ++i)
-    {
-        glDetachShader(_object, shaders[i].object());
-    }
+    glDetachShader(shader, sh_vertex.GetShader());
+    glDetachShader(shader, sh_pixel.GetShader());
 
-    //throw exception if linking failed
     GLint status;
-    glGetProgramiv(_object, GL_LINK_STATUS, &status);
+    glGetProgramiv(shader, GL_LINK_STATUS, &status);
 
     if (status == GL_FALSE) 
     {
         errorMessage = "Fallo al linkear los shaders: ";
 
         GLint infoLogLength;
-        glGetProgramiv(_object, GL_INFO_LOG_LENGTH, &infoLogLength);
+        glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
+
         char* strInfoLog = new char[infoLogLength + 1];
-        glGetProgramInfoLog(_object, infoLogLength, NULL, strInfoLog);
+        glGetProgramInfoLog(shader, infoLogLength, NULL, strInfoLog);
 
         errorMessage += strInfoLog;
         delete[] strInfoLog;
 
-        glDeleteProgram(_object); _object = 0;
+        glDeleteProgram(shader); 
+        shader = 0;
 
         Fun::ShowMessage(MSG_CAPTION_ERROR, errorMessage, Fun::TipoMensaje::Error);
         throw std::runtime_error(errorMessage);
-        PostQuitMessage(0);
     }
 }
 
 Shader::~Shader() 
 {
-    //might be 0 if ctor fails by throwing exception
-    if (_object != 0) glDeleteProgram(_object);
+    if (shader != 0) 
+        glDeleteProgram(shader);
 }
 
 GLuint Shader::object() const 
 {
-    return _object;
+    return shader;
 }
 
 void Shader::use() const 
 {
-    glUseProgram(_object);
+    glUseProgram(shader);
 }
 
 bool Shader::isInUse() const 
 {
     GLint currentProgram = 0;
     glGetIntegerv(GL_CURRENT_PROGRAM, &currentProgram);
-    return (currentProgram == (GLint)_object);
+
+    return (currentProgram == (GLint)shader);
 }
 
 void Shader::stopUsing() const 
@@ -104,11 +93,10 @@ GLint Shader::attrib(const GLchar* attribName) const
         errorMessage = "El nombre del atributo esta vacio";
 
         Fun::ShowMessage(MSG_CAPTION_ERROR, errorMessage, Fun::TipoMensaje::Error);
-        // throw std::runtime_error(errorMessage);
-        PostQuitMessage(0);
+        throw std::runtime_error(errorMessage);
     }
 
-    GLint attrib = glGetAttribLocation(_object, attribName);
+    GLint attrib = glGetAttribLocation(shader, attribName);
 
     if (attrib == -1)
     {
@@ -132,11 +120,10 @@ GLint Shader::uniform(const GLchar* uniformName) const
         errorMessage = "El nombre del uniform esta vacio";
 
         Fun::ShowMessage(MSG_CAPTION_ERROR, errorMessage, Fun::TipoMensaje::Error);
-        // throw std::runtime_error(errorMessage);
-        PostQuitMessage(0);
+        throw std::runtime_error(errorMessage);
     }
 
-    GLint uniform = glGetUniformLocation(_object, uniformName);
+    GLint uniform = glGetUniformLocation(shader, uniformName);
 
     if (uniform == -1)
     {

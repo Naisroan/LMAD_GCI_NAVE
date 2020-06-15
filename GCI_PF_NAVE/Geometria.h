@@ -445,10 +445,7 @@ public:
 		RUTA_ARCHIVO_VERTEXSHADER = rutaArchivoVertexShader;
 		RUTA_ARCHIVO_FRAGMENTSHADER = rutaArchivoFragmentShader;
 
-		ShaderFiles.push_back(ShaderFile::LoadShaderFromFile(RUTA_ARCHIVO_VERTEXSHADER, GL_VERTEX_SHADER));
-		ShaderFiles.push_back(ShaderFile::LoadShaderFromFile(RUTA_ARCHIVO_FRAGMENTSHADER, GL_FRAGMENT_SHADER));
-		_Shader = new Shader(ShaderFiles);
-		ShaderFiles.clear();
+		_Shader = new Shader(rutaArchivoVertexShader, rutaArchivoFragmentShader);
 
 		CantidadVertices = 0;
 		CantidadIndices = 0;

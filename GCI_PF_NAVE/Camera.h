@@ -5,6 +5,7 @@
 
 #include <glm.hpp>
 #include <matrix_transform.hpp>
+#include <iostream>
 
 using namespace glm;
 
@@ -15,6 +16,8 @@ private:
 
 	vec3 Position;		// posicion de la camara
 	vec3 Rotation;		// rotacion de la camara (angulo x, y, z)
+
+	vec3 AntesColisionPosition;
 
 	float Pitch = 0.0;			// x
 	float Yaw = -90.0;			// y
@@ -35,6 +38,8 @@ private:
 
 	bool IsRun = false;
 	bool IsFly = true;
+
+	bool CanMove = true;
 
 public:
 
@@ -115,6 +120,9 @@ public:
 
 	void Move(float vertical, float horizontal, float deltaTime)
 	{
+		if (!CanMove)
+			return;
+
 		float vel = 0.0f;
 		
 		vel = !IsRun ? Velocity : RunVelocity;
@@ -128,6 +136,9 @@ public:
 
 	void Float(float deltaTime, bool up = true)
 	{
+		if (!CanMove)
+			return;
+
 		Position.y += (up ? FlyVelocity : -FlyVelocity) * deltaTime;
 
 		SetViewMatrix();
@@ -171,6 +182,43 @@ public:
 	void SetIsFly(bool fly)
 	{
 		IsFly = fly;
+	}
+
+	bool GetCanMove()
+	{
+		return CanMove;
+	}
+
+	void SetCanMove(bool canMove)
+	{
+		CanMove = canMove;
+	}
+
+	void VerificarColision(vec3 posicionModelo, vec3 colision)
+	{
+		if ((Position.x <= posicionModelo.x + colision.x && Position.x >= posicionModelo.x - colision.x)
+			&& (Position.z <= posicionModelo.z + colision.z && Position.z >= posicionModelo.z - colision.z)
+			&& (Position.y <= posicionModelo.y + colision.y && Position.y >= posicionModelo.y - colision.y))
+		{ 
+			std::cout << "Colision!" << std::endl; 
+			SetPosition(AntesColisionPosition);
+			SetViewMatrix();
+		}
+
+		AntesColisionPosition.x = Position.x;
+		AntesColisionPosition.y = Position.y;
+		AntesColisionPosition.z = Position.z;
+	}
+
+	void VerificarColision(vec3 posicionModelo, vec3 colision, float deltaTime)
+	{
+		if ((Position.x <= posicionModelo.x + colision.x && Position.x >= posicionModelo.x - colision.x)
+			&& (Position.z <= posicionModelo.z + colision.z && Position.z >= posicionModelo.z - colision.z)
+			&& (Position.y <= posicionModelo.y + colision.y && Position.y >= posicionModelo.y - colision.y))
+		{
+			std::cout << "Colision!" << std::endl;
+			Move(-1, 0, deltaTime);
+		}
 	}
 
 private:

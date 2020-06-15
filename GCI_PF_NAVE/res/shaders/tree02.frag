@@ -1,98 +1,86 @@
 #version 440
 
-uniform vec3 lightPosition;
-uniform vec3 lightColor;
-uniform float ambientCoe;
-
-uniform vec3 cameraPosition;
+// uniforms
+uniform sampler2D normalMap;
+uniform sampler2D diffuseMap;
+uniform sampler2D specularMap;
+uniform sampler2D ambientMap;
 
 uniform vec3 ambient;
 uniform vec3 diffuse;
 uniform vec3 specular;
 
-uniform float shininess;
-uniform float transparency;
+uniform bool tieneNormalMap;
+uniform bool tieneAmbientMap;
+uniform bool tieneDiffuseMap;
+uniform bool tieneSpecularMap;
 
-uniform bool hasNormalMap;
-uniform bool hasAmbientMap;
-uniform bool hasDiffuseMap;
-uniform bool hasSpecularMap;
+uniform vec3 lightPos;
+uniform vec3 skyColor;
+uniform vec3 viewPos;
 
-uniform sampler2D normalMap;
-uniform sampler2D ambientMap;
-uniform sampler2D diffuseMap;
-uniform sampler2D specularMap;
-
-in vec3 fragPosition;
-in vec2 fragTexCoord;
-in vec3 fragNormal;
-in vec3 fragTangent;
-in vec3 fragBinormal;
-
+// inputs
+in vec3 posicion;
+in vec2 texCoord;
+in vec3 normal;
+in vec3 tangente;
+in vec3 binormal;
 in float fogVisibilty;
 
-out vec4 finalColor;
+out vec4 outputColor;
 
 void main() 
 {
-    vec4 diffuseAlpha = texture(diffuseMap, fragTexCoord);
+	// obtenemos color de texturas
+	vec4 texColor = tieneDiffuseMap ? texture(diffuseMap, texCoord) : vec4(diffuse, 1.0);
 
-    if (diffuseAlpha.a <= 0.1f)
+	if (texColor.a <= 0.1f)
     {
         discard;
     }
 
-    float diffuseCoe, specularCoe, specularPixel, shininessPixel, transparencyPixel;
-    vec3 ambientResult, diffuseResult, specularResult, normal;
-    vec3 lightDirection, lightReflection, viewDirection;
-    vec3 normalPixel, ambientPixel, diffusePixel;
-    vec3 lighColorFinal = lightColor * 0.01;
-    
-    normalPixel = hasNormalMap ? texture(normalMap, fragTexCoord).xyz : vec3(0, 0, 0.5);
-    diffusePixel = hasDiffuseMap ? texture(diffuseMap, fragTexCoord).xyz : vec3(1.0f, 1.0f, 1.0f);
-    ambientPixel = hasAmbientMap ? texture(ambientMap, fragTexCoord).xyz : vec3(1.0f, 1.0f, 1.0f) * diffusePixel;
-    specularPixel = hasSpecularMap ? texture(specularMap, fragTexCoord).x : 1.0f;
-    
-    normal = fragNormal;
+	vec4 texNormal = tieneNormalMap ? texture(normalMap, texCoord) : vec4(0.5f, 0.5f, 1.0f, 1.0f);
+	vec4 texSpecular = tieneSpecularMap ? 1 - texture(specularMap, texCoord) : vec4(0.0f);
 
-    if (hasNormalMap) 
-    {
-        normalPixel = (normalPixel * 2.0) - 1.0;
+	// obtenemos aportacion ambiental
+	vec4 ambientAport = 0.2f * texColor * vec4(skyColor, 1.0f);
 
-        normal = normalize(
-        normalPixel.x * fragTangent +
-        normalPixel.y * fragBinormal +
-        normalPixel.z * fragNormal);
-    } 
+	// obtenemos color de la normal
+	vec3 colorNormal = texNormal.rgb;
 
-    ambientResult = ambientCoe * ambient * ambientPixel * lighColorFinal;
+	// aplicamos este calculo para que se note la normal
+	colorNormal = colorNormal * 2.0f - 1.0f;
+	colorNormal.x = -1.5f * colorNormal.x;
 
-	// ligero fix
-	vec3 lightPosFix = lightPosition;
-	lightPosFix.y = lightPosition.y * -1;
-	lightPosFix.z = lightPosition.z * -1;
-    
-    lightDirection = -lightPosFix;
+	// matriz TBN
+	mat3 TBN;
+	TBN = mat3(tangente, binormal, normal);
+	
+	// aplicamos la matriz TBN a la normal
+	colorNormal = normalize(TBN * colorNormal);
 
-    diffuseCoe = max(0.0, dot(normal, lightDirection));
-    diffuseResult = diffuseCoe * diffuse * diffusePixel * lighColorFinal;
-    
-    specularResult = vec3(0.0, 0.0, 0.0);
-    
-    if(diffuseCoe > 0.0) 
-    {
-    	lightReflection = normalize(reflect(-lightDirection, normal));
-        viewDirection = normalize(cameraPosition - fragPosition);   
-    	specularCoe = max(0.0, dot(viewDirection, lightReflection));
-    	specularCoe = pow(specularCoe, shininess * shininessPixel);
-    	specularResult = specularCoe * specular * specularPixel * lighColorFinal;
-    }
+	// calculamos la direccion de la luz en base a la TBN calculada en el vert
+	// vec3 lightDirection = normalize(lightPos - posicion);
+	vec3 lightDirection = normalize(lightPos);
 
-    vec3 phong = clamp(ambientResult + diffuseResult + specularResult, 0.0, 1.0);
+	// obtenemos aportacion difusa
+	float diff = clamp(dot(lightDirection, colorNormal), 0.0f, 1.0f);
 
-    finalColor = vec4(phong, transparency * transparencyPixel);
-    // finalColor = vec4(pow(phong, vec3(1.0/2.2)), transparency * transparencyPixel);
+	// obtenemos la luz difusa final
+	vec4 diffuseAport = diff * texColor * vec4(skyColor, 1.0f);
+	
+	// specular
+	float shininess = 100.0f;
+	float FAS = 1.0f;
 
-	// aplicamos fog
-	finalColor = mix(vec4(lightColor, 1.0f), finalColor, fogVisibilty);
+	vec3 viewDirection = normalize(viewPos - posicion);
+	vec3 reflectionDirection = normalize(reflect(lightDirection, colorNormal));
+	float spec = pow(max(dot(-viewDirection, reflectionDirection), 0.0f), shininess);
+	
+	// obtenemos la luz specular final
+	vec4 specularAport = texSpecular * vec4(skyColor, 1.0f) * FAS * spec;
+
+	// calculamos color final y le aplicamos fog
+	outputColor = (ambientAport + diffuseAport + specularAport);
+	outputColor = mix(vec4(skyColor, 1.0f), outputColor, fogVisibilty);
 }

@@ -7,6 +7,7 @@
 #include "Geometria.h"
 #include "Picture.h"
 #include "VectorRR.h"
+#include "Camera.h"
 
 using namespace std;
 using namespace glm;
@@ -37,7 +38,7 @@ private:
 
 public:
 
-	Terreno(string rutaMapaAlturas, string rutaTextura, string rutaMapaNormal, 
+	Terreno(string rutaMapaAlturas, string rutaTextura, string rutaMapaNormal,
 		string rutaTextura2, string rutaMapaNormal02, string rutaMultiTextura, string rutaVertShader, string rutaFragShader)
 		: Geometria(rutaVertShader.c_str(), rutaFragShader.c_str())
 	{
@@ -53,7 +54,9 @@ public:
 
 		delete texAltura;
 
-		GenerarTexturas(rutaTextura, rutaMapaNormal, rutaTextura2, rutaMapaNormal02, rutaMultiTextura);
+		GenerarTexturas(rutaTextura, rutaMapaNormal, rutaTextura2, 
+			rutaMapaNormal02, rutaMultiTextura);
+
 		GenerarVAO();
 	}
 
@@ -205,7 +208,7 @@ private:
 		_MayaTerreno.Indices = 0;
 	}
 
-	void GenerarTexturas(string rutaTextura01, string rutaTexturaNormal01, 
+	void GenerarTexturas(string rutaTextura01, string rutaTexturaNormal01,
 		string rutaTextura02, string rutaTexturaNormal02, string rutaMultiTextura)
 	{
 		// multitextura

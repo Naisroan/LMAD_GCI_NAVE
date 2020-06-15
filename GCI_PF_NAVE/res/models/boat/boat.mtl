@@ -1,0 +1,41 @@
+# Blender MTL File: 'None'
+# Material Count: 3
+
+newmtl Material.001
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump Texture\\bumps\\wood1_BUMPS\\wood1_NRM.jpg
+map_Kd Texture\\wood1.jpg
+map_Ks Texture\\bumps\\wood1_BUMPS\\wood1_SPEC.jpg
+
+newmtl Material.002
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump Texture\\bumps\\wood3_BUMPS\\Bump_NORMAL.jpg
+map_Kd Texture\\wood3.jpg
+map_Ks Texture\\bumps\\wood3_BUMPS\\Bump_SPECULAR.jpg
+
+newmtl Material.003
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump Texture\\bumps\\wood2_BUMPS\\wood2_NRM.jpg
+map_Kd Texture\\wood2.jpg
+map_Ks Texture\\bumps\\wood2_BUMPS\\wood2_SPEC.jpg

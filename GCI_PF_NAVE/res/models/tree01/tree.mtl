@@ -10,6 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
+map_Bump -bm 8.599999 bark_0021_n.png
 map_Kd bark_0021.jpg
 
 newmtl polySurface1SG1

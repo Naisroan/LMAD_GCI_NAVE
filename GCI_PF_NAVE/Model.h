@@ -8,21 +8,25 @@
 class Model
 	: public Geometria
 {
+
 private:
+
 	Model();
 
-	static vector <Material> LoadMtl(string, string);
-	static vector <Group> LoadObj(Shader*, string, string, vec3&, vec3&, string&);
-	static GLvoid ComputeTangentSpace(vector<Mesh::Vertex>&, vector <GLuint>&);
-	static GLvoid CreateBuffers(Shader*, Group&, vector<Mesh::Vertex>&, vector<GLuint>&);
+	static vector<Material> CargarMTL(string, string);
+	static vector<Group> CargarModelo(Shader*, string, string, string&);
+	static GLvoid CalcularTangentes(vector<Mesh::Vertex>&, vector <GLuint>&);
+	static GLvoid GenerarVAO(Shader*, Group&, vector<Mesh::Vertex>&, vector<GLuint>&);
 
 public:
+
 	vector<Group> groups;
 	vector<Material> materials;
 
 	~Model();
 
-	static Model* ObjToModel(Shader*, string, string);
+	static Model* CargarOBJ(Shader*, string, string);
 
-	GLvoid Draw(Shader*, mat4 view, mat4 projection);
+	GLvoid Draw(Shader* shader, mat4 view, mat4 projection);
+
 };

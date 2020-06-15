@@ -1,18 +1,15 @@
-# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 05.06.2020 04:13:44
+# Blender MTL File: 'None'
+# Material Count: 1
 
 newmtl Stone_1_LOD1
-	Ns 900.0000
-	Ni 1.5000
-	d 1.0000
-	Tr 0.0000
-	Tf 1.0000 1.0000 1.0000 
-	illum 2
-	Ka 1.0000 1.0000 1.0000
-	Kd 0.8000 0.8000 0.8000
-	Ks 0.0000 0.0000 0.0000
-	Ke 0.0000 0.0000 0.0000
-	map_Ka Stone_1_DiffuseMap.jpg
-	map_Kd Stone_1_DiffuseMap.jpg
-	map_bump Stone_1_LOD1NormalsMap.jpg
-	bump Stone_1_LOD1NormalsMap.jpg
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Bump Rock_039_normal.jpg
+map_Kd Rock_039_baseColor.jpg
+map_Ks Rock_039_roughness.jpg

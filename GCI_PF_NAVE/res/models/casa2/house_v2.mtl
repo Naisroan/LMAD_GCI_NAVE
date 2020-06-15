@@ -1,0 +1,79 @@
+# Blender MTL File: 'None'
+# Material Count: 6
+
+newmtl (null)
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump barrel_normal.jpg
+map_Kd barrel_diffuse.jpg
+map_Ks barrel_spec.jpg
+
+newmtl (null).002
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump barrel_normal.jpg
+map_Kd barrel_diffuse.jpg
+map_Ks barrel_spec.jpg
+
+newmtl (null).003
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump barrel_normal.jpg
+map_Kd barrel_diffuse.jpg
+map_Ks barrel_spec.jpg
+
+newmtl (null).004
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump barrel_normal.jpg
+map_Kd barrel_diffuse.jpg
+map_Ks barrel_spec.jpg
+
+newmtl (null).005
+Ns 96.078443
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump barrel_normal.jpg
+map_Kd barrel_diffuse.jpg
+map_Ks barrel_spec.jpg
+
+newmtl blinn1SG
+Ns 0.060000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Bump -bm 9.299999 house_normalv2.png
+map_Kd house_diffuse.png

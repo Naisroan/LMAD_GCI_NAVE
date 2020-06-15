@@ -17,17 +17,15 @@ class Shader
 
 private:
 
-    GLuint _object;
+    GLuint shader = 0;
 
-    //copying disabled
     Shader(const Shader&);
-    const Shader& operator=(const Shader&);
 
 public:
 
     GLuint object() const;
 
-    Shader(const std::vector<ShaderFile>& shaders);
+    Shader(const char* rutaVertexShader, const char* rutaPixelShader);
     ~Shader();
 
     void use() const;

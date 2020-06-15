@@ -19,26 +19,8 @@
     <Filter Include="Archivos de encabezado\app">
       <UniqueIdentifier>{f7e64d17-d337-49fa-b67f-feb562beee0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\geometry">
-      <UniqueIdentifier>{9b2a60c0-63b6-4d02-9495-a87c83810864}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\models">
       <UniqueIdentifier>{e81e79fb-061f-4b6c-8027-4285c69383c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\tools">
-      <UniqueIdentifier>{a558e654-7036-42fa-900b-ff9ca861b7ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\third">
-      <UniqueIdentifier>{1906ea16-d980-4b49-8ca1-062dc2bd513f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\third\glfw">
-      <UniqueIdentifier>{4116503b-6d01-45e5-b9e0-5751dfa6ab33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\third\soil">
-      <UniqueIdentifier>{d0852796-13f6-4bdb-8ce7-c105ee33cb92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\third\glew">
-      <UniqueIdentifier>{504c1a9d-38d3-4bae-986f-cc445f042d17}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de encabezado\sky">
       <UniqueIdentifier>{d456a742-bc56-458b-bfb1-24c634c540f9}</UniqueIdentifier>
@@ -56,9 +38,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="third\soil\stb_image_aug.c">
-      <Filter>Archivos de encabezado\third\soil</Filter>
     </ClCompile>
     <ClCompile Include="billboard.cpp">
       <Filter>Archivos de encabezado\billboard</Filter>
@@ -87,6 +66,9 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Archivos de encabezado\shaders\carga</Filter>
     </ClCompile>
+    <ClCompile Include="third\soil\stb_image_aug.c">
+      <Filter>Archivos de encabezado\app</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Triangulo.h">
@@ -110,44 +92,8 @@
     <ClInclude Include="constantes.h">
       <Filter>Archivos de encabezado\app</Filter>
     </ClInclude>
-    <ClInclude Include="Maya.h">
-      <Filter>Archivos de encabezado\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Geometria.h">
-      <Filter>Archivos de encabezado\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertices.h">
-      <Filter>Archivos de encabezado\geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="VectorRR.h">
-      <Filter>Archivos de encabezado\geometry</Filter>
-    </ClInclude>
     <ClInclude Include="Modelo.h">
       <Filter>Archivos de encabezado\models</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>Archivos de encabezado\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Picture.h">
-      <Filter>Archivos de encabezado\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="third\glfw\glfw3.h">
-      <Filter>Archivos de encabezado\third\glfw</Filter>
-    </ClInclude>
-    <ClInclude Include="third\glfw\glfw3native.h">
-      <Filter>Archivos de encabezado\third\glfw</Filter>
-    </ClInclude>
-    <ClInclude Include="third\soil\stb_image_aug.h">
-      <Filter>Archivos de encabezado\third\soil</Filter>
-    </ClInclude>
-    <ClInclude Include="third\soil\stbi_DDS_aug.h">
-      <Filter>Archivos de encabezado\third\soil</Filter>
-    </ClInclude>
-    <ClInclude Include="third\soil\stbi_DDS_aug_c.h">
-      <Filter>Archivos de encabezado\third\soil</Filter>
-    </ClInclude>
-    <ClInclude Include="third\glew\glew.h">
-      <Filter>Archivos de encabezado\third\glew</Filter>
     </ClInclude>
     <ClInclude Include="terreno.h">
       <Filter>Archivos de encabezado</Filter>
@@ -200,6 +146,24 @@
     <ClInclude Include="Shader.h">
       <Filter>Archivos de encabezado\shaders\carga</Filter>
     </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Archivos de encabezado\app</Filter>
+    </ClInclude>
+    <ClInclude Include="Picture.h">
+      <Filter>Archivos de encabezado\app</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertices.h">
+      <Filter>Archivos de encabezado\models</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorRR.h">
+      <Filter>Archivos de encabezado\models</Filter>
+    </ClInclude>
+    <ClInclude Include="Maya.h">
+      <Filter>Archivos de encabezado\models</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometria.h">
+      <Filter>Archivos de encabezado\models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\agua.frag">
@@ -244,12 +208,6 @@
     <None Include="res\shaders\tree02.vert">
       <Filter>Archivos de encabezado\shaders</Filter>
     </None>
-    <None Include="res\shaders\Triangulo.frag">
-      <Filter>Archivos de encabezado\shaders</Filter>
-    </None>
-    <None Include="res\shaders\Triangulo.vert">
-      <Filter>Archivos de encabezado\shaders</Filter>
-    </None>
     <None Include="res\skybox\clouds.vert">
       <Filter>Archivos de encabezado\sky</Filter>
     </None>
@@ -261,6 +219,12 @@
     </None>
     <None Include="res\skybox\skybox.vert">
       <Filter>Archivos de encabezado\sky</Filter>
+    </None>
+    <None Include="res\shaders\sol.frag">
+      <Filter>Archivos de encabezado\shaders</Filter>
+    </None>
+    <None Include="res\shaders\sol.vert">
+      <Filter>Archivos de encabezado\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

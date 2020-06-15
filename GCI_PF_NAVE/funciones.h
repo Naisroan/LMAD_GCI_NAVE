@@ -113,15 +113,16 @@ public:
         MessageBox(0, texto.c_str(), titulo.c_str(), tipoMensaje | MB_OK);
     }
 
-    static string GetCarpetaRecursos(string fileName) 
+    static string GetCarpetaRecursos(string nombreArchivo) 
     {
-        char executablePath[1024] = { '\0' };
-        DWORD charsCopied = GetModuleFileName(NULL, executablePath, 1024);
+        char carpetaRaiz[1024] = "";
+        string strRuta;
 
-        string strPath = executablePath;
-        // + "\\..\\" + fileName;
-        if (charsCopied > 0 && charsCopied < 1024)
-            return strPath + "\\..\\..\\..\\GCI_PF_NAVE\\res\\" + fileName;
+        GetModuleFileName(NULL, carpetaRaiz, 1024);
+
+        strRuta = carpetaRaiz;
+
+        return strRuta + "\\..\\..\\..\\GCI_PF_NAVE\\res\\" + nombreArchivo;
     }
 
 private:

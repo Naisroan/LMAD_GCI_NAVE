@@ -15,9 +15,6 @@ public:
 	~Billboard();
 
 	void Draw(Camera* camera, mat4 projection, vec3 skyColor, vec3 lightPosition, bool toCenter = false);
-	GLvoid DrawH(GLuint, mat4, mat4, mat4, vec3, vec3, GLfloat, GLfloat);
-	GLvoid DrawV(GLuint, mat4, mat4, mat4, vec3, vec3, GLfloat, GLfloat);
-	GLvoid DrawHV(GLuint, mat4, mat4, mat4, vec3, vec3, GLfloat, GLfloat);
 
 private:
 

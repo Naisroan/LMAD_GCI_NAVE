@@ -17,8 +17,8 @@ class ShaderFile
 
 private:
 
-	GLuint _object;
-	unsigned* _refCount;
+	GLuint shader = 0;
+	unsigned* _refCount = NULL;
 
 	void _retain()
 	{
@@ -33,25 +33,24 @@ private:
 
 		if (*_refCount == 0) 
 		{
-			glDeleteShader(_object); _object = 0;
+			glDeleteShader(shader); 
+			shader = 0;
 			delete _refCount; _refCount = NULL;
 		}
 	}
 
 public:
 
-	GLuint object() const 
+	GLuint GetShader() const 
 	{
-		return _object;
+		return shader;
 	}
 
-	ShaderFile(const std::string& shaderCode, GLenum shaderType) :
-		_object(0),
-		_refCount(NULL)
+	ShaderFile(const std::string& shaderCode, GLenum shaderType)
 	{
-		_object = glCreateShader(shaderType);
+		shader = glCreateShader(shaderType);
 
-		if (_object == 0)
+		if (shader == 0)
 		{
 			Fun::ShowMessage(MSG_CAPTION_ERROR, "Fallo al crear el shader");
 			throw std::runtime_error("Fallo al crear el shader");
@@ -60,27 +59,27 @@ public:
 
 		//set the source code
 		const char* code = shaderCode.c_str();
-		glShaderSource(_object, 1, (const GLchar**)&code, NULL);
+		glShaderSource(shader, 1, (const GLchar**)&code, NULL);
 
 		//compile
-		glCompileShader(_object);
+		glCompileShader(shader);
 
 		//throw exception if compile error occurred
 		GLint status;
-		glGetShaderiv(_object, GL_COMPILE_STATUS, &status);
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
 		if (status == GL_FALSE) 
 		{
 			std::string msg("Fallo al compilar el shader:\n");
 			GLint infoLogLength;
-			glGetShaderiv(_object, GL_INFO_LOG_LENGTH, &infoLogLength);
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLogLength);
 
 			char* strInfoLog = new char[infoLogLength + 1];
-			glGetShaderInfoLog(_object, infoLogLength, NULL, strInfoLog);
+			glGetShaderInfoLog(shader, infoLogLength, NULL, strInfoLog);
 			msg += strInfoLog;
 			delete[] strInfoLog;
 
-			glDeleteShader(_object); _object = 0;
+			glDeleteShader(shader); shader = 0;
 
 			Fun::ShowMessage(MSG_CAPTION_ERROR, msg);
 			throw std::runtime_error(msg);
@@ -92,7 +91,7 @@ public:
 	}
 
 	ShaderFile(const ShaderFile& other) :
-		_object(other._object),
+		shader(other.shader),
 		_refCount(other._refCount)
 	{
 		_retain();
@@ -101,7 +100,7 @@ public:
 	ShaderFile& operator =(const ShaderFile& other)
 	{
 		_release();
-		_object = other._object;
+		shader = other.shader;
 		_refCount = other._refCount;
 		_retain();
 		return *this;

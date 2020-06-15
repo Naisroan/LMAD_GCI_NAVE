@@ -1,37 +1,43 @@
 #include "model.h"
 
-Model::Model() { }
+Model::Model() 
+{ 
+}
 
 Model::~Model() { }
 
-GLvoid Model::Draw(Shader* program, mat4 view, mat4 projection)
+GLvoid Model::Draw(Shader* shader, mat4 view, mat4 projection)
 {
-	for (auto& group : groups) 
-		group.Draw(program, materials, GetTransformMatrix(), view, projection);
+	for (Group& group : groups)
+	{
+		group.Draw(shader, materials, GetTransformMatrix(), view, projection);
+	}
 }
 
-Model* Model::ObjToModel(Shader* program, string relativePath, string fileName) 
+Model* Model::CargarOBJ(Shader* shader, string rutaObj, string nombreObj) 
 {
-	vec3 minimum = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	vec3 maximum = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
+	string nombreMtl = "";
 
-	string mtlName = "";
-
-	vector<Group> _groups = LoadObj(program, relativePath, fileName, minimum, maximum, mtlName);
-	vector<Material> _materials = LoadMtl(relativePath, mtlName);
+	vector<Group> _groups = CargarModelo(shader, rutaObj, nombreObj, nombreMtl);
+	vector<Material> _materials = CargarMTL(rutaObj, nombreMtl);
 
 	GLuint index = 0;
 
-	for (auto& group : _groups) {
-		for (auto& mesh : group.meshes) {
-			for (auto& material : _materials) {
+	for (Group& group : _groups) 
+	{
+		for (Mesh& mesh : group.meshes) 
+		{
+			for (Material& material : _materials) 
+			{
 				if (mesh.materialName == material.name)
 				{
 					mesh.materialIndex = index;
 					break;
 				}
+
 				index++;
 			}
+
 			index = 0;
 		}
 	}
@@ -43,7 +49,7 @@ Model* Model::ObjToModel(Shader* program, string relativePath, string fileName)
 	return _model;
 }
 
-vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileName, vec3& minimum, vec3& maximum, string& mtlName)
+vector<Group> Model::CargarModelo(Shader* shader, string rutaObj, string nombreObj, string& nombreMtl)
 {
 	vector<Group> groupList;
 
@@ -54,17 +60,9 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 	vector<vec3> normals;
 	vector<vec2> texCoords;
 
-	vec3 modelMin = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	vec3 modelMax = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
-
-	vec3 groupMin = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	vec3 groupMax = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
-
-	vec3 meshMin = vec3(FLT_MAX, FLT_MAX, FLT_MAX);
-	vec3 meshMax = vec3(FLT_MIN, FLT_MIN, FLT_MIN);
-
 	ifstream file;
-	file.open(relativePath + "/" + fileName);
+	file.open(rutaObj + "/" + nombreObj);
+
 	if (file.is_open())
 	{
 		while (file.good())
@@ -74,7 +72,7 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 
 			if (token == "mtllib")
 			{
-				file >> mtlName;
+				file >> nombreMtl;
 			}
 			else if (token == "g")
 			{
@@ -82,8 +80,8 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 				{
 					groupList.back().meshes.back().size = indexBuffer.size() - groupList.back().meshes.back().offset;
 
-					ComputeTangentSpace(vertexBuffer, indexBuffer);
-					CreateBuffers(program, groupList.back(), vertexBuffer, indexBuffer);
+					CalcularTangentes(vertexBuffer, indexBuffer);
+					GenerarVAO(shader, groupList.back(), vertexBuffer, indexBuffer);
 				}
 
 				groupList.emplace_back();
@@ -105,27 +103,6 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 			{
 				vec3 position;
 				file >> position.x >> position.y >> position.z;
-
-				if (position.x > modelMax.x) modelMax.x = position.x;
-				if (position.y > modelMax.y) modelMax.y = position.y;
-				if (position.z > modelMax.z) modelMax.z = position.z;
-				if (position.x < modelMin.x) modelMin.x = position.x;
-				if (position.y < modelMin.y) modelMin.y = position.y;
-				if (position.z < modelMin.z) modelMin.z = position.z;
-
-				if (position.x > groupMax.x) groupMax.x = position.x;
-				if (position.y > groupMax.y) groupMax.y = position.y;
-				if (position.z > groupMax.z) groupMax.z = position.z;
-				if (position.x < groupMin.x) groupMin.x = position.x;
-				if (position.y < groupMin.y) groupMin.y = position.y;
-				if (position.z < groupMin.z) groupMin.z = position.z;
-
-				if (position.x > meshMax.x) meshMax.x = position.x;
-				if (position.y > meshMax.y) meshMax.y = position.y;
-				if (position.z > meshMax.z) meshMax.z = position.z;
-				if (position.x < meshMin.x) meshMin.x = position.x;
-				if (position.y < meshMin.y) meshMin.y = position.y;
-				if (position.z < meshMin.z) meshMin.z = position.z;
 
 				positions.push_back(position);
 			}
@@ -178,29 +155,27 @@ vector <Group> Model::LoadObj(Shader* program, string relativePath, string fileN
 
 	groupList.back().meshes.back().size = indexBuffer.size();
 
-	ComputeTangentSpace(vertexBuffer, indexBuffer);
-	CreateBuffers(program, groupList.back(), vertexBuffer, indexBuffer);
-
-	minimum = modelMin;
-	maximum = modelMax;
+	CalcularTangentes(vertexBuffer, indexBuffer);
+	GenerarVAO(shader, groupList.back(), vertexBuffer, indexBuffer);
 
 	return groupList;
 }
 
-GLvoid Model::ComputeTangentSpace(vector <Mesh::Vertex>& vertices, vector <GLuint>& indices)
+GLvoid Model::CalcularTangentes(vector <Mesh::Vertex>& vertices, vector <GLuint>& indices)
 {
 	vec3* tangents = new vec3[vertices.size()];
 	vec3* binormals = new vec3[vertices.size()];
 
 	for (unsigned int i = 0; i < indices.size(); i += 3)
 	{
-		vec3 vertex0 = vertices[indices[i + 0]].position;
+		vec3 vertex0 = vertices[indices[i]].position;
 		vec3 vertex1 = vertices[indices[i + 1]].position;
 		vec3 vertex2 = vertices[indices[i + 2]].position;
 
 		vec3 normal = glm::cross(vertex1 - vertex0, vertex2 - vertex0);
 
 		vec3 deltaPos;
+
 		if (vertex0.x == vertex1.x && vertex0.y == vertex1.y && vertex0.z == vertex1.z)
 		{
 			deltaPos = vertex2 - vertex0;
@@ -210,7 +185,7 @@ GLvoid Model::ComputeTangentSpace(vector <Mesh::Vertex>& vertices, vector <GLuin
 			deltaPos = vertex1 - vertex0;
 		}
 
-		vec2 uv0 = vertices[indices[i + 0]].texCoord;
+		vec2 uv0 = vertices[indices[i]].texCoord;
 		vec2 uv1 = vertices[indices[i + 1]].texCoord;
 		vec2 uv2 = vertices[indices[i + 2]].texCoord;
 
@@ -227,11 +202,11 @@ GLvoid Model::ComputeTangentSpace(vector <Mesh::Vertex>& vertices, vector <GLuin
 		bin = glm::cross(tan, normal);
 		bin = glm::normalize(bin);
 
-		tangents[indices[i + 0]] = tan;
+		tangents[indices[i]] = tan;
 		tangents[indices[i + 1]] = tan;
 		tangents[indices[i + 2]] = tan;
 
-		binormals[indices[i + 0]] = bin;
+		binormals[indices[i]] = bin;
 		binormals[indices[i + 1]] = bin;
 		binormals[indices[i + 2]] = bin;
 	}
@@ -243,17 +218,19 @@ GLvoid Model::ComputeTangentSpace(vector <Mesh::Vertex>& vertices, vector <GLuin
 	}
 }
 
-vector <Material> Model::LoadMtl(string relativePath, string fileName)
+vector<Material> Model::CargarMTL(string relativePath, string fileName)
 {
 	vector<Material> materialList;
 	ifstream file;
 	file.open(relativePath + "/" + fileName);
+
 	if (file.is_open())
 	{
 		while (file.good())
 		{
 			string token;
 			file >> token;
+
 			if (token == "newmtl")
 			{
 				materialList.emplace_back();
@@ -325,24 +302,36 @@ vector <Material> Model::LoadMtl(string relativePath, string fileName)
 				Texture* _texture = new Texture(Bitmap::bitmapFromFile(relativePath + "/" + name));
 				materialList.back().transparencyMap = _texture;
 			}
-			else if (token == "map_bump")
+			else if (token == "map_Bump")
 			{
 				string name;
 				file >> name;
-				file >> name;
-				file >> name;
+
+				int foundExtension = name.find(".png");
+				foundExtension = foundExtension > 0 ? foundExtension : name.find(".jpg");
+				foundExtension = foundExtension > 0 ? foundExtension : name.find(".bmp");
+				foundExtension = foundExtension > 0 ? foundExtension : name.find(".tga");
+
+				if (foundExtension <= 0)
+				{
+					file >> name;
+					file >> name;
+				}
+
 				Texture* _texture = new Texture(Bitmap::bitmapFromFile(relativePath + "/" + name));
 				materialList.back().normalMap = _texture;
 			}
+
 			file.ignore(INT_MAX, '\n');
 		}
+
 		file.close();
 	}
 
 	return materialList;
 }
 
-GLvoid Model::CreateBuffers(Shader* program, Group& group, vector<Mesh::Vertex>& vertices, vector <GLuint>& indices)
+GLvoid Model::GenerarVAO(Shader* program, Group& group, vector<Mesh::Vertex>& vertices, vector <GLuint>& indices)
 {
 	GLuint VBO, IBO;
 
@@ -357,20 +346,20 @@ GLvoid Model::CreateBuffers(Shader* program, Group& group, vector<Mesh::Vertex>&
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Mesh::Vertex) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 
-	glEnableVertexAttribArray(program->attrib("vertPosition"));
-	glVertexAttribPointer(program->attrib("vertPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (const GLvoid*)0);
+	glEnableVertexAttribArray(program->attrib("inputPosition"));
+	glVertexAttribPointer(program->attrib("inputPosition"), 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (const GLvoid*)0);
 
-	glEnableVertexAttribArray(program->attrib("vertTexCoord"));
-	glVertexAttribPointer(program->attrib("vertTexCoord"), 2, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3)));
+	glEnableVertexAttribArray(program->attrib("inputTexCoord"));
+	glVertexAttribPointer(program->attrib("inputTexCoord"), 2, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3)));
 
-	glEnableVertexAttribArray(program->attrib("vertNormal"));
-	glVertexAttribPointer(program->attrib("vertNormal"), 3, GL_FLOAT, GL_TRUE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3) + sizeof(vec2)));
+	glEnableVertexAttribArray(program->attrib("inputNormal"));
+	glVertexAttribPointer(program->attrib("inputNormal"), 3, GL_FLOAT, GL_TRUE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3) + sizeof(vec2)));
 
-	glEnableVertexAttribArray(program->attrib("vertTangent"));
-	glVertexAttribPointer(program->attrib("vertTangent"), 3, GL_FLOAT, GL_TRUE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3) + sizeof(vec2) + sizeof(vec3)));
+	glEnableVertexAttribArray(program->attrib("inputTangent"));
+	glVertexAttribPointer(program->attrib("inputTangent"), 3, GL_FLOAT, GL_TRUE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3) + sizeof(vec2) + sizeof(vec3)));
 
-	glEnableVertexAttribArray(program->attrib("vertBinormal"));
-	glVertexAttribPointer(program->attrib("vertBinormal"), 3, GL_FLOAT, GL_TRUE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3) + sizeof(vec2) + sizeof(vec3) + sizeof(vec3)));
+	glEnableVertexAttribArray(program->attrib("inputBinormal"));
+	glVertexAttribPointer(program->attrib("inputBinormal"), 3, GL_FLOAT, GL_TRUE, sizeof(Mesh::Vertex), (const GLvoid*)(sizeof(vec3) + sizeof(vec2) + sizeof(vec3) + sizeof(vec3)));
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

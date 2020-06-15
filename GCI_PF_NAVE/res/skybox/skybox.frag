@@ -26,24 +26,24 @@ void main(void)
     {
         if (skyTime > 1.0f) // si es mayor o igual a 2 quiere que decir que apenas es de dia y va hacia tarde
         {
-            combinacion = mix(colorAfternoon, colorDay, skyTime - 1.0f);
+            combinacion = mix(colorAfternoon, colorDay, skyTime > 2.0f ? 1.0f : skyTime - 1.0f);
         }
 
         if (skyTime <= 1.0f) // si es menor o igual a 1 quiere que decir que ya es de tarde y va hacia noche
         {
-            combinacion = mix(colorNight, colorAfternoon, skyTime);
+            combinacion = mix(colorNight, colorAfternoon, skyTime < 0.0f ? 0.0f : skyTime);
         }
     }
     else  // hacia dia
     {
         if (skyTime < 1.0f) // si es menor que 1 quiere decir que es de noche y va hacia tarde (o mañana/madrugada)
         {
-            combinacion = mix(colorNight, colorAfternoon, skyTime);
+            combinacion = mix(colorNight, colorAfternoon, skyTime < 0.0f ? 0.0 : skyTime);
         }
 
         if (skyTime >= 1.0f) // si es mayor o igual a 1 quiere decir que es de mañana/madrugada y va hacia dia
         {
-            combinacion = mix(colorAfternoon, colorDay, skyTime - 1.0f);
+            combinacion = mix(colorAfternoon, colorDay, skyTime > 2.0f ? 1.0f : skyTime - 1.0f);
         }
     }
 

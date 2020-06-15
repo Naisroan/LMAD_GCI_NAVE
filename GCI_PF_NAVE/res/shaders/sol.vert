@@ -1,0 +1,41 @@
+#version 440
+
+// uniforms
+uniform mat4 worldMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
+
+// ins
+in vec3 inputPosition;
+in vec3 inputNormal;
+in vec2 inputTexCoord;
+in vec3 inputTangent;
+in vec3 inputBinormal;
+
+// outs
+out vec3 posicion;
+out vec2 texCoord;
+out vec3 normal;
+out vec3 tangente;
+out vec3 binormal;
+out float fogVisibilty;
+
+void main()
+{
+	vec4 worldPosition;		// posicion del vertice respecto al mundo
+	vec4 posRelativeToCam;	// posicion del vertice respecto a la camara
+
+	worldPosition = worldMatrix * vec4(inputPosition, 1.0f);
+	posRelativeToCam = viewMatrix * worldPosition;
+
+	// establecemos posicion en base a la proyeccion (pantalla) y camara
+	gl_Position = projectionMatrix * posRelativeToCam;
+
+	// establecemos valores de outs para el fragment shader
+	posicion = vec3(worldPosition);
+	texCoord = inputTexCoord;
+	normal = normalize(vec3(worldMatrix * vec4(inputNormal, 0.0f)));
+	tangente = normalize(vec3(worldMatrix * vec4(inputTangent, 0)));
+	tangente = normalize(tangente - normal * dot(normal,tangente));
+	binormal = normalize(cross(normal, tangente));
+}
