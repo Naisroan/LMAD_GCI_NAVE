@@ -9,13 +9,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR cmdParams, int cmdShow)
 	// creamos la ventana
 	if (!CrearVentana(_HWnd, _HInstance, _HDC, _HGLRC, logMessage))
 	{
-		// throw new exception(logMessage.c_str());
 		Fun::ShowMessage(MSG_CAPTION_ERROR, logMessage, Fun::TipoMensaje::Error);
 		return EXIT_FAILURE;
 	}
-
-	// ya creada la ventana la mostramos
-	ShowWindow(_HWnd, SW_SHOW);
 
 	// iniciamos herramientas de glew
 	if (!IniciarGlew(logMessage))
@@ -31,8 +27,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR cmdParams, int cmdShow)
 		return EXIT_FAILURE;
 	}
 
+	// mostramos ventana
+	ShowWindow(_HWnd, SW_SHOW);
+
 	// inicializamos escena
 	_FirstScene = new FirstScene(&_HWnd);
+
+	// ya cargado ponemos en primer plano
+	SetForegroundWindow(_HWnd); // ponerla en primer plano
+	SetFocus(_HWnd);
 
 	// iniciamos el ciclo de la ventana/juego
 	GameLoop(_HWnd, _HDC);

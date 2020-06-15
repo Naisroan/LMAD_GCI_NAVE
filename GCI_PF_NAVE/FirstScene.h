@@ -28,15 +28,15 @@ private:
 	const int limiteZ = 90;
 
 	// para fines de pruebas (si se pone false no lo carga y por ende no lo dibuja)
-	const bool CICLO_DIA_NOCHE = false;
-	const bool CARGA_DIBUJA_SOL = false;
+	const bool CICLO_DIA_NOCHE = true;
+	const bool CARGA_DIBUJA_SOL = true;
 	const bool CARGA_DIBUJA_SOL_BILL = false;
-	const bool CARGA_DIBUJA_NAVE = false;
-	const bool CARGA_DIBUJA_ARBOL = false;
-	const bool CARGA_DIBUJA_CASA = false;
-	const bool CARGA_DIBUJA_BOTE = false;
-	const bool CARGA_DIBUJA_ROCAS = false;
-	const bool CARGA_DIBUJA_ROCAS2 = false;
+	const bool CARGA_DIBUJA_NAVE = true;
+	const bool CARGA_DIBUJA_ARBOL = true;
+	const bool CARGA_DIBUJA_CASA = true;
+	const bool CARGA_DIBUJA_BOTE = true;
+	const bool CARGA_DIBUJA_ROCAS = true;
+	const bool CARGA_DIBUJA_ROCAS2 = true;
 	const bool CARGA_DIBUJA_LUCIERNAGAS = false;
 
 	float skyTime = 2.5f;

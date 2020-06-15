@@ -69,7 +69,6 @@ bool CrearVentana(HWND& hWnd, HINSTANCE& hInstance, HDC& hDC, HGLRC& hGLRC, stri
 	wndClass.lpszMenuName = NULL;
 	wndClass.cbClsExtra = 0;
 	wndClass.cbWndExtra = 0;
-	// wndClass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wndClass.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(0, 0, 0));
 
 	// registro de la clase

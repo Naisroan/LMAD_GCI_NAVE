@@ -20,7 +20,7 @@ public:
 		A = 65,
 		ESC = 27,
 		SPACE = 32,
-		L_SHIFT = VK_LSHIFT,
+		L_SHIFT = VK_SHIFT,
 		I = 73,
 		L = 76,
 		K = 75,
