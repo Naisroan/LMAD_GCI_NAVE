@@ -498,6 +498,8 @@ private:
 
 	void CargarPosicionesRandom()
 	{
+		const int limRespawn = 60;
+
 		for (int i = 0; i < sizeof(posRndmArboles) / sizeof(vec3); i++)
 		{
 			int rndmX = -40 + rand() % (40 + 1 - (-40));

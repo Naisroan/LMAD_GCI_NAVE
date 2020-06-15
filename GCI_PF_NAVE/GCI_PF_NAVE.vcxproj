@@ -211,6 +211,10 @@
     <None Include="res\shaders\tree02.vert" />
     <None Include="res\shaders\Triangulo.frag" />
     <None Include="res\shaders\Triangulo.vert" />
+    <None Include="res\skybox\clouds.frag" />
+    <None Include="res\skybox\clouds.vert" />
+    <None Include="res\skybox\skybox.frag" />
+    <None Include="res\skybox\skybox.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

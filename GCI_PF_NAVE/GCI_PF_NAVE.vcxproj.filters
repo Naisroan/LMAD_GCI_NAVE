@@ -250,5 +250,17 @@
     <None Include="res\shaders\Triangulo.vert">
       <Filter>Archivos de encabezado\shaders</Filter>
     </None>
+    <None Include="res\skybox\clouds.vert">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </None>
+    <None Include="res\skybox\clouds.frag">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </None>
+    <None Include="res\skybox\skybox.frag">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </None>
+    <None Include="res\skybox\skybox.vert">
+      <Filter>Archivos de encabezado\sky</Filter>
+    </None>
   </ItemGroup>
 </Project>
