@@ -67,7 +67,7 @@ void main()
 	{
 		// specular
 		float shininess = 32.0f;
-		float FAS = 1.0f;
+		float FAS = 0.7f;
 
 		vec3 viewDirection = normalize(viewPos - posicion);
 		vec3 reflectionDirection = normalize(reflect(lightDirection, colorNormal));

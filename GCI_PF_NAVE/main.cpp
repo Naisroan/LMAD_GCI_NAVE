@@ -177,5 +177,4 @@ void OnResize(HWND hWnd, WPARAM wParam, LPARAM lParam)
 	gluPerspective(FOV, (GLfloat)WND_SIZE_WIDTH / (GLfloat)WND_SIZE_HEIGHT, SCREEN_NEAR, SCREEN_FAR);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
 }

@@ -18,6 +18,7 @@ uniform bool tieneSpecularMap;
 uniform vec3 lightPos;
 uniform vec3 skyColor;
 uniform vec3 viewPos;
+uniform float shininess;
 
 // inputs
 in vec3 posicion;
@@ -61,11 +62,10 @@ void main()
 	float diff = clamp(dot(lightDirection, colorNormal), 0.0f, 1.0f);
 
 	// obtenemos la luz difusa final
-	vec4 diffuseAport = diff * texColor * vec4(skyColor, 1.0f);
+	vec4 diffuseAport = diff * texColor * vec4(skyColor, 1.0f) * 0.8;
 	
 	// specular
-	float shininess = 32.0f;
-	float FAS = 1.0f;
+	float FAS = 0.8f;
 
 	vec3 viewDirection = normalize(viewPos - posicion);
 	vec3 reflectionDirection = normalize(reflect(lightDirection, colorNormal));

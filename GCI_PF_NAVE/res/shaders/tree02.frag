@@ -67,20 +67,28 @@ void main()
 	float diff = clamp(dot(lightDirection, colorNormal), 0.0f, 1.0f);
 
 	// obtenemos la luz difusa final
-	vec4 diffuseAport = diff * texColor * vec4(skyColor, 1.0f);
+	vec4 diffuseAport = diff * texColor * vec4(skyColor, 1.0f) * 0.8f;
 	
 	// specular
-	float shininess = 100.0f;
-	float FAS = 1.0f;
+	if (tieneSpecularMap)
+	{
+		float shininess = 32.0f;
+		float FAS = 0.6f;
 
-	vec3 viewDirection = normalize(viewPos - posicion);
-	vec3 reflectionDirection = normalize(reflect(lightDirection, colorNormal));
-	float spec = pow(max(dot(-viewDirection, reflectionDirection), 0.0f), shininess);
+		vec3 viewDirection = normalize(viewPos - posicion);
+		vec3 reflectionDirection = normalize(reflect(lightDirection, colorNormal));
+		float spec = pow(max(dot(-viewDirection, reflectionDirection), 0.0f), shininess);
 	
-	// obtenemos la luz specular final
-	vec4 specularAport = texSpecular * vec4(skyColor, 1.0f) * FAS * spec;
+		// obtenemos la luz specular final
+		vec4 specularAport = texSpecular * vec4(skyColor, 1.0f) * FAS * spec;
 
-	// calculamos color final y le aplicamos fog
-	outputColor = (ambientAport + diffuseAport + specularAport);
+		// calculamos color final y le aplicamos fog
+		outputColor = (ambientAport + diffuseAport + specularAport);
+	}
+	else
+	{
+		outputColor = (ambientAport + diffuseAport);
+	}
+
 	outputColor = mix(vec4(skyColor, 1.0f), outputColor, fogVisibilty);
 }

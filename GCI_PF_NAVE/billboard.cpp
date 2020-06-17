@@ -18,9 +18,7 @@ Billboard::~Billboard()
 void Billboard::Draw(Camera* camera, mat4 projection, vec3 skyColor, vec3 lightPosition, bool toCenter)
 {
 	vec3 up = vec3(0, 1, 0);
-	GLfloat angle = 0.0f;
-
-	//angleH = atan2(position.x - cameraPosition.x, position.z - cameraPosition.z) * (180.0 / pi<float>());
+	float angle = 0.0f;
 
 	vec3 cameraPosition = !toCenter ? camera->GetPosition() : vec3(0.0f, 0.0f, 0.0f);
 	vec3 billPosition = GetPosition();
@@ -30,7 +28,7 @@ void Billboard::Draw(Camera* camera, mat4 projection, vec3 skyColor, vec3 lightP
 
 	objToCam = normalize(objToCam);
 
-	GLfloat angleCosine = dot(vec3(0, 0, -1), objToCam);
+	float angleCosine = dot(vec3(0, 0, -1), objToCam);
 	up = cross(vec3(0, 0, -1), objToCam);
 
 	angle = acos(angleCosine) * (180.0 / pi<float>());
@@ -42,7 +40,6 @@ void Billboard::Draw(Camera* camera, mat4 projection, vec3 skyColor, vec3 lightP
 		scale(mat4(1.0f), vec3(size.x, size.y, 1));
 	
 	gProgram->use();
-	// gProgram->setUniform("camera", camera->GetView());
 	gProgram->setUniform("alpha", 1.0f);
 	gProgram->setUniform("lightPosition", lightPosition);
 	gProgram->setUniform("lightColor", skyColor);

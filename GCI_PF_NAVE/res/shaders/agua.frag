@@ -42,8 +42,8 @@ void main(void)
 	vec4 diffuseAport = diff * texColor * vec4(skyColor, 1.0f);
 	
 	// specular
-	float shininess = 30.0f;
-	float FAS = 1.0f;
+	float shininess = 40.0f;
+	float FAS = 0.6f;
 
 	vec3 viewDirection = normalize(viewPos - posicion);
 	vec3 reflectionDirection = normalize(reflect(-lightDirection, normal));

@@ -609,6 +609,7 @@ private:
 			sh_model->setUniform("lightPos", lightPosition);
 			sh_model->setUniform("skyColor", skyColor);
 			sh_model->setUniform("viewPos", camera->GetPosition());
+			sh_model->setUniform("shininess", 10.0f);
 			sh_model->stopUsing();
 
 			m_boat->SetPosition(vec3(75.0f, 4.8f + agua->MovementVertex, -48.0f + -agua->MovementVertex));
@@ -625,6 +626,7 @@ private:
 			sh_model->setUniform("lightPos", lightPosition);
 			sh_model->setUniform("skyColor", skyColor);
 			sh_model->setUniform("viewPos", camera->GetPosition());
+			sh_model->setUniform("shininess", 32.0f);
 			sh_model->stopUsing();
 
 			m_roca->SetScale(vec3(0.3f));
@@ -665,6 +667,7 @@ private:
 			sh_model->setUniform("lightPos", lightPosition);
 			sh_model->setUniform("skyColor", skyColor);
 			sh_model->setUniform("viewPos", camera->GetPosition());
+			sh_model->setUniform("shininess", 32.0f);
 			sh_model->stopUsing();
 
 			m_roca2->SetScale(vec3(0.6f));
